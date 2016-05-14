@@ -53,7 +53,7 @@ clean:
 	rm -rf $(BUILDDIR)/*
 
 .PHONY: html
-html: _submodules
+html:
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
@@ -222,5 +222,3 @@ pseudoxml:
 	@echo
 	@echo "Build finished. The pseudo-XML files are in $(BUILDDIR)/pseudoxml."
 
-_submodules:
-	git submodule update --init
