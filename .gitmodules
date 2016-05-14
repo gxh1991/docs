@@ -1,4 +1,4 @@
 [submodule "source/submodules/releng/builder"]
 	path = source/submodules/releng/builder
-	url = ../releng/builder
+	url = https://git.opendaylight.org/gerrit/releng/builder
 	branch = master
