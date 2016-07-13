@@ -1,0 +1,916 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?asciidoc-toc?>
+<?asciidoc-numbered?>
+<book xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en">
+<info>
+<title>OpenDaylight and OpenStack</title>
+<date>2016-06-01</date>
+
+    <author>
+        <personname>
+            <firstname>OpenDaylight</firstname>
+            <surname>Community</surname>
+        </personname>
+        <email>documentation@opendaylight.org</email>
+        <affiliation>
+            <orgname>Linux Foundation</orgname>
+        </affiliation>
+    </author>
+    <copyright>
+        <year>2015</year>
+        <holder>Linux Foundation</holder>
+    </copyright>
+    <releaseinfo>Beryllium</releaseinfo>
+    <productname>OpenDaylight</productname>
+    <pubdate></pubdate>
+    <legalnotice role="license">
+        <para> This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at <link xlink:href="http://www.eclipse.org/legal/epl-v10.html"/></para>
+    </legalnotice>
+    <abstract>
+        <para>This guide describes how to use OpenDaylight with OpenStack.</para>
+    </abstract>
+    <revhistory>
+        <revision>
+            <date>2014-07-16</date>
+            <revdescription>
+                <itemizedlist spacing="compact">
+                    <listitem>
+                        <para>Initial Guide Creation</para>
+                    </listitem>
+                </itemizedlist>
+            </revdescription>
+        </revision>
+    </revhistory>
+
+
+
+</info>
+<preface xml:id="_overview">
+<title>Overview</title>
+<simpara><link xlink:href="http://www.openstack.org">OpenStack</link> is a popular open source Infrastructure
+as a service project, covering compute, storage and network management.
+OpenStack can use OpenDaylight as its network management provider through the
+Modular Layer 2 (ML2) north-bound plug-in. OpenDaylight manages the network
+flows for the OpenStack compute nodes via the OVSDB south-bound plug-in. This
+page describes how to set that up, and how to tell when everything is working.</simpara>
+</preface>
+<chapter xml:id="_installing_openstack">
+<title>Installing OpenStack</title>
+<simpara>Installing OpenStack is out of scope for this document, but to get started, it
+is useful to have a minimal multi-node OpenStack deployment.</simpara>
+<simpara>The reference deployment we will use for this document is a 3 node cluster:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>One control node containing all of the management services for OpenStack
+(Nova, Neutron, Glance, Swift, Cinder, Keystone)</simpara>
+</listitem>
+<listitem>
+<simpara>Two compute nodes running nova-compute</simpara>
+</listitem>
+<listitem>
+<simpara>Neutron using the OVS back-end and vxlan for tunnels</simpara>
+</listitem>
+</itemizedlist>
+
+<simpara>Once you have installed OpenStack, verify that it is working by connecting
+to Horizon and performing a few operations. To check the Neutron
+configuration, create two instances on a private subnet bridging to your
+public network, and verify that you can connect to them, and that they can
+see each other.</simpara>
+</chapter>
+<chapter xml:id="_installing_opendaylight">
+<title>Installing OpenDaylight</title>
+<section xml:id="_openstack_with_ovsdb">
+<title>OpenStack with OVSDB</title>
+<simpara><emphasis role="strong">Prerequisites:</emphasis> OpenDaylight requires Java 1.7.0.</simpara>
+<itemizedlist>
+<listitem>
+<simpara>On the control host, <link xlink:href="http://www.opendaylight.org/software/downloads">Download
+the latest OpenDaylight release</link> (at the time of writing, this is
+0.2.1-Helium-SR1.1)</simpara>
+</listitem>
+<listitem>
+<simpara>Uncompress it as root, and start OpenDaylight (you can start OpenDaylight
+by running karaf directly, but exiting from the shell will shut it down):</simpara>
+
+<literallayout class="monospaced">$ tar xvfz distribution-karaf-0.2.1-Helium-SR1.1.tar.gz
+$ cd distribution-karaf-0.2.0-Helium
+$ ./bin/start # Start OpenDaylight as a server process</literallayout>
+
+
+</listitem>
+<listitem>
+<simpara>Connect to the Karaf shell, and install the odl-ovsdb-openstack bundle,
+dlux and their dependencies:</simpara>
+
+<literallayout class="monospaced">$ ./bin/client # Connect to OpenDaylight with the client
+opendaylight-user@root&gt; feature:install odl-base-all odl-aaa-authn odl-restconf odl-nsf-all odl-adsal-northbound odl-mdsal-apidocs \
+odl-ovsdb-openstack odl-ovsdb-northbound odl-dlux-core</literallayout>
+
+
+</listitem>
+<listitem>
+<simpara>If everything is installed correctly, you should now be able to log in to
+the dlux interface on <literal>http://$CONTROL_HOST:8181/dlux/index.html</literal> - the
+default username and password is "admin/admin" (see screenshot below)</simpara>
+<simpara><inlinemediaobject>
+  <imageobject>
+    <imagedata fileref="./images/dlux-default.png" width="500"/>
+  </imageobject>
+  <textobject><phrase>dlux-default</phrase></textobject>
+</inlinemediaobject></simpara>
+</listitem>
+</itemizedlist>
+
+<section xml:id="_ensuring_openstack_network_state_is_clean">
+<title>Ensuring OpenStack network state is clean</title>
+<simpara>When using OpenDaylight as the Neutron back-end, ODL expects to be the only
+source of truth for Open vSwitch configuration. Because of this, it is
+necessary to remove existing OpenStack and Open vSwitch configurations to
+give OpenDaylight a clean slate.</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Delete instances</simpara>
+
+<literallayout class="monospaced">$ nova list
+$ nova delete &lt;instance names&gt;</literallayout>
+
+
+</listitem>
+<listitem>
+<simpara>Remove link from subnets to routers</simpara>
+
+<literallayout class="monospaced">$ neutron subnet-list
+$ neutron router-list
+$ neutron router-port-list &lt;router name&gt;
+$ neutron router-interface-delete &lt;router name&gt; &lt;subnet ID or name&gt;</literallayout>
+
+
+</listitem>
+<listitem>
+<simpara>Delete subnets, nets, routers</simpara>
+
+<literallayout class="monospaced">$ neutron subnet-delete &lt;subnet name&gt;
+$ neutron net-list
+$ neutron net-delete &lt;net name&gt;
+$ neutron router-delete &lt;router name&gt;</literallayout>
+
+
+</listitem>
+<listitem>
+<simpara>Check that all ports have been cleared - at this point, this should be an
+empty list</simpara>
+
+<literallayout class="monospaced">$ neutron port-list</literallayout>
+
+
+</listitem>
+</itemizedlist>
+
+</section>
+<section xml:id="_ensure_neutron_is_stopped">
+<title>Ensure Neutron is stopped</title>
+<simpara>While Neutron is managing the OVS instances on compute and control nodes,
+OpenDaylight and Neutron can be in conflict. To prevent issues, we turn off
+Neutron server on the network controller, and Neutron&#8217;s Open vSwitch agents
+on all hosts.</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Turn off neutron-server on control node</simpara>
+
+<literallayout class="monospaced"># systemctl stop neutron-server</literallayout>
+
+
+</listitem>
+<listitem>
+<simpara>On each node in the cluster, shut down and disable Neutron&#8217;s agent services to ensure that they do not restart after a reboot:</simpara>
+
+<literallayout class="monospaced"># systemctl stop neutron-openvswitch-agent
+# systemctl disable neutron-openvswitch-agent</literallayout>
+
+
+</listitem>
+</itemizedlist>
+
+</section>
+<section xml:id="_configuring_open_vswitch_to_be_managed_by_opendaylight">
+<title>Configuring Open vSwitch to be managed by OpenDaylight</title>
+<simpara>On each host (both compute and control nodes) we will clear the pre-existing
+Open vSwitch config and set OpenDaylight to manage the switch:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Stop the Open vSwitch service, and clear existing OVSDB (ODL expects to
+manage vSwitches completely)</simpara>
+
+<literallayout class="monospaced"># systemctl stop openvswitch
+# rm -rf /var/log/openvswitch/*
+# rm -rf /etc/openvswitch/conf.db
+# systemctl start openvswitch</literallayout>
+
+
+</listitem>
+<listitem>
+<simpara>At this stage, your Open vSwitch configuration should be empty:</simpara>
+
+<literallayout class="monospaced">[root@dneary-odl-compute2 ~]# ovs-vsctl show
+9f3b38cb-eefc-4bc7-828b-084b1f66fbfd
+    ovs_version: "2.1.3"</literallayout>
+
+
+</listitem>
+<listitem>
+<simpara>Set OpenDaylight as the manager on all nodes</simpara>
+
+<literallayout class="monospaced"># ovs-vsctl set-manager tcp:${CONTROL_HOST}:6640</literallayout>
+
+
+</listitem>
+<listitem>
+<simpara>You should now see a new section in your Open vSwitch configuration
+showing that you are connected to the OpenDaylight server, and OpenDaylight
+will automatically create a br-int bridge:</simpara>
+
+<literallayout class="monospaced">[root@dneary-odl-compute2 ~]# ovs-vsctl show
+9f3b38cb-eefc-4bc7-828b-084b1f66fbfd
+    Manager "tcp:172.16.21.56:6640"
+        is_connected: true
+    Bridge br-int
+        Controller "tcp:172.16.21.56:6633"
+        fail_mode: secure
+        Port br-int
+            Interface br-int
+    ovs_version: "2.1.3"</literallayout>
+
+
+</listitem>
+<listitem>
+<simpara>(BUG WORKAROUND) If SELinux is enabled, you may not have a security
+context in place which allows Open vSwitch remote administration. If you
+do not see the result above (specifically, if you do not see
+"is_connected: true" in the Manager section), set SELinux to Permissive
+mode on all nodes and ensure it stays that way after boot:</simpara>
+
+<literallayout class="monospaced"># setenforce 0
+# sed -i -e 's/SELINUX=enforcing/SELINUX=permissive/g' /etc/selinux/config</literallayout>
+
+
+</listitem>
+<listitem>
+<simpara>Make sure all nodes, including the control node, are connected to
+OpenDaylight</simpara>
+</listitem>
+<listitem>
+<simpara>If you reload DLUX, you should now see that all of your Open vSwitch nodes
+are now connected to OpenDaylight</simpara>
+<simpara><inlinemediaobject>
+  <imageobject>
+    <imagedata fileref="./images/dlux-with-switches.png" width="500"/>
+  </imageobject>
+  <textobject><phrase>dlux-with-switches</phrase></textobject>
+</inlinemediaobject></simpara>
+</listitem>
+<listitem>
+<simpara>If something has gone wrong, check &lt;code&gt;data/log/karaf.log&lt;/code&gt; under
+the OpenDaylight distribution directory. If you do not see any interesting
+log entries, set logging for OVSDB to TRACE level inside Karaf and try again:</simpara>
+
+<literallayout class="monospaced">log:set TRACE ovsdb</literallayout>
+
+
+</listitem>
+</itemizedlist>
+
+</section>
+<section xml:id="_configuring_neutron_to_use_opendaylight">
+<title>Configuring Neutron to use OpenDaylight</title>
+<simpara>Once you have configured the vSwitches to connect to OpenDaylight, you can
+now ensure that OpenStack Neutron is using OpenDaylight.</simpara>
+<simpara>First, ensure that port 8080 (which will be used by OpenDaylight to listen
+for REST calls) is available. By default, swift-proxy-service listens on the
+same port, and you may need to move it (to another port or another host), or
+disable that service. I moved it to port 8081 by editing
+&lt;code&gt;/etc/swift/proxy-server.conf&lt;/code&gt; and
+&lt;code&gt;/etc/cinder/cinder.conf&lt;/code&gt;, modifying iptables appropriately, and
+restarting swift-proxy-service and OpenDaylight.</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Configure Neutron to use OpenDaylight&#8217;s ML2 driver:</simpara>
+
+<literallayout class="monospaced">crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini ml2 mechanism_drivers opendaylight
+crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini ml2 tenant_network_types vxlan
+
+cat &lt;&lt;EOT&gt;&gt; /etc/neutron/plugins/ml2/ml2_conf.ini
+[ml2_odl]
+password = admin
+username = admin
+url = http://${CONTROL_HOST}:8080/controller/nb/v2/neutron
+EOT</literallayout>
+
+
+</listitem>
+<listitem>
+<simpara>Reset Neutron&#8217;s ML2 database</simpara>
+
+<literallayout class="monospaced">mysql -e "drop database if exists neutron_ml2;"
+mysql -e "create database neutron_ml2 character set utf8;"
+mysql -e "grant all on neutron_ml2.* to 'neutron'@'%';"
+neutron-db-manage --config-file /usr/share/neutron/neutron-dist.conf --config-file /etc/neutron/neutron.conf \
+--config-file /etc/neutron/plugin.ini upgrade head</literallayout>
+
+
+</listitem>
+<listitem>
+<simpara>Restart neutron-server:</simpara>
+
+<literallayout class="monospaced">systemctl start neutron-server</literallayout>
+
+
+</listitem>
+</itemizedlist>
+
+</section>
+<section xml:id="_verifying_it_works">
+<title>Verifying it works</title>
+<itemizedlist>
+<listitem>
+<simpara>Verify that OpenDaylight&#8217;s ML2 interface is working:</simpara>
+
+<literallayout class="monospaced">curl -u admin:admin http://${CONTROL_HOST}:8080/controller/nb/v2/neutron/networks
+
+{
+   "networks" : [ ]
+}</literallayout>
+
+
+<simpara>If this does not work or gives an error, check Neutron&#8217;s log file in
+&lt;code&gt;/var/log/neutron/server.log&lt;/code&gt;. Error messages here should give
+some clue as to what the problem is in the connection with OpenDaylight</simpara>
+</listitem>
+<listitem>
+<simpara>Create a net, subnet, router, connect ports, and start an instance using
+the Neutron CLI:</simpara>
+
+<literallayout class="monospaced">neutron router-create router1
+neutron net-create private
+neutron subnet-create private --name=private_subnet 10.10.5.0/24
+neutron router-interface-add router1 private_subnet
+nova boot --flavor &lt;flavor&gt; --image &lt;image id&gt; --nic net-id=&lt;network id&gt; test1
+nova boot --flavor &lt;flavor&gt; --image &lt;image id&gt; --nic net-id=&lt;network id&gt; test2</literallayout>
+
+
+<simpara>At this point, you have confirmed that OpenDaylight is creating network
+end-points for instances on your network and managing traffic to them.</simpara>
+</listitem>
+</itemizedlist>
+
+<simpara>Congratulations! You&#8217;re done!</simpara>
+</section>
+</section>
+<section xml:id="_openstack_with_groupbasedpolicy">
+<title>OpenStack with GroupBasedPolicy</title>
+<simpara>This section is for Application Developers and Network Administrators
+who are looking to integrate Group Based Policy with OpenStack.</simpara>
+<simpara>To enable the <emphasis role="strong">GBP</emphasis> Neutron Mapper feature, at the karaf console:</simpara>
+
+<literallayout class="monospaced">feature:install odl-groupbasedpolicy-neutronmapper</literallayout>
+
+
+<simpara>Neutron Mapper has the following dependencies that are automatically loaded:</simpara>
+
+<literallayout class="monospaced">odl-neutron-service</literallayout>
+
+
+<simpara>Neutron Northbound implementing REST API used by OpenStack</simpara>
+
+<literallayout class="monospaced">odl-groupbasedpolicy-base</literallayout>
+
+
+<simpara>Base <emphasis role="strong">GBP</emphasis> feature set, such as policy resolution, data model etc.</simpara>
+
+<literallayout class="monospaced">odl-groupbasedpolicy-ofoverlay</literallayout>
+
+
+<simpara>For Lithium, <emphasis role="strong">GBP</emphasis> has one renderer, hence this is loaded by default.</simpara>
+<simpara>REST calls from OpenStack Neutron are by the Neutron NorthBound project.</simpara>
+<simpara><emphasis role="strong">GBP</emphasis> provides the implementation of the <link xlink:href="http://developer.openstack.org/api-ref-networking-v2.html">Neutron V2.0 API</link>.</simpara>
+<section xml:id="_features">
+<title>Features</title>
+<simpara>List of supported Neutron entities:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Port</simpara>
+</listitem>
+<listitem>
+<simpara>Network</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Standard Internal</simpara>
+</listitem>
+<listitem>
+<simpara>External provider L2/L3 network</simpara>
+</listitem>
+</itemizedlist>
+
+</listitem>
+<listitem>
+<simpara>Subnet</simpara>
+</listitem>
+<listitem>
+<simpara>Security-groups</simpara>
+</listitem>
+<listitem>
+<simpara>Routers</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Distributed functionality with local routing per compute</simpara>
+</listitem>
+<listitem>
+<simpara>External gateway access per compute node (dedicated port required)</simpara>
+</listitem>
+<listitem>
+<simpara>Multiple routers per tenant</simpara>
+</listitem>
+</itemizedlist>
+
+</listitem>
+<listitem>
+<simpara>FloatingIP NAT</simpara>
+</listitem>
+<listitem>
+<simpara>IPv4/IPv6 support</simpara>
+</listitem>
+</itemizedlist>
+
+<simpara>The mapping of Neutron entities to <emphasis role="strong">GBP</emphasis> entities is as follows:</simpara>
+<simpara><emphasis role="strong">Neutron Port</emphasis></simpara>
+<figure>
+<title>Neutron Port</title>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="./images/groupbasedpolicy/neutronmapper-gbp-mapping-port.png" contentwidth="300"/>
+    </imageobject>
+    <textobject><phrase>neutronmapper gbp mapping port</phrase></textobject>
+  </mediaobject>
+</figure>
+
+<simpara>The Neutron port is mapped to an endpoint.</simpara>
+<simpara>The current implementation supports one IP address per Neutron port.</simpara>
+<simpara>An endpoint and L3-endpoint belong to multiple EndpointGroups if the Neutron port is in multiple Neutron Security Groups.</simpara>
+<simpara>The key for endpoint is L2-bridge-domain obtained as the parent of L2-flood-domain representing Neutron network. The MAC address is from the Neutron port.
+An L3-endpoint is created based on L3-context (the parent of the L2-bridge-domain) and IP address of Neutron Port.</simpara>
+<simpara><emphasis role="strong">Neutron Network</emphasis></simpara>
+<figure>
+<title>Neutron Network</title>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="./images/groupbasedpolicy/neutronmapper-gbp-mapping-network.png" contentwidth="300"/>
+    </imageobject>
+    <textobject><phrase>neutronmapper gbp mapping network</phrase></textobject>
+  </mediaobject>
+</figure>
+
+<simpara>A Neutron network has the following characteristics:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>defines a broadcast domain</simpara>
+</listitem>
+<listitem>
+<simpara>defines a L2 transmission domain</simpara>
+</listitem>
+<listitem>
+<simpara>defines a L2 name space.</simpara>
+</listitem>
+</itemizedlist>
+
+<simpara>To represent this, a Neutron Network is mapped to multiple <emphasis role="strong">GBP</emphasis> entities.
+The first mapping is to an L2 flood-domain to reflect that the Neutron network is one flooding or broadcast domain.
+An L2-bridge-domain is then associated as the parent of L2 flood-domain. This reflects both the L2 transmission domain as well as the L2 addressing namespace.</simpara>
+<simpara>The third mapping is to L3-context, which represents the distinct L3 address space.
+The L3-context is the parent of L2-bridge-domain.</simpara>
+<simpara><emphasis role="strong">Neutron Subnet</emphasis></simpara>
+<figure>
+<title>Neutron Subnet</title>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="./images/groupbasedpolicy/neutronmapper-gbp-mapping-subnet.png" contentwidth="300"/>
+    </imageobject>
+    <textobject><phrase>neutronmapper gbp mapping subnet</phrase></textobject>
+  </mediaobject>
+</figure>
+
+<simpara>Neutron subnet is associated with a Neutron network. The Neutron subnet is mapped to a <emphasis role="strong">GBP</emphasis> subnet where the parent of the subnet is L2-flood-domain representing the Neutron network.</simpara>
+<simpara><emphasis role="strong">Neutron Security Group</emphasis></simpara>
+<figure>
+<title>Neutron Security Group and Rules</title>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="./images/groupbasedpolicy/neutronmapper-gbp-mapping-securitygroup.png" contentwidth="300"/>
+    </imageobject>
+    <textobject><phrase>neutronmapper gbp mapping securitygroup</phrase></textobject>
+  </mediaobject>
+</figure>
+
+<simpara><emphasis role="strong">GBP</emphasis> entity representing Neutron security-group is EndpointGroup.</simpara>
+<simpara><emphasis role="strong">Infrastructure EndpointGroups</emphasis></simpara>
+<simpara>Neutron-mapper automatically creates EndpointGroups to manage key infrastructure items such as:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>DHCP EndpointGroup - contains endpoints representing Neutron DHCP ports</simpara>
+</listitem>
+<listitem>
+<simpara>Router EndpointGroup - contains endpoints representing Neutron router interfaces</simpara>
+</listitem>
+<listitem>
+<simpara>External EndpointGroup - holds L3-endpoints representing Neutron router gateway ports, also associated with FloatingIP ports.</simpara>
+</listitem>
+</itemizedlist>
+
+<simpara><emphasis role="strong">Neutron Security Group Rules</emphasis></simpara>
+<simpara>This mapping is most complicated among all others because Neutron security-group-rules are mapped to contracts with clauses,
+subjects, rules, action-refs, classifier-refs, etc.
+Contracts are used between endpoint groups representing Neutron Security Groups.
+For simplification it is important to note that Neutron security-group-rules are similar to a <emphasis role="strong">GBP</emphasis> rule containing:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>classifier with direction</simpara>
+</listitem>
+<listitem>
+<simpara>action of <emphasis role="strong">allow</emphasis>.</simpara>
+</listitem>
+</itemizedlist>
+
+<simpara><emphasis role="strong">Neutron Routers</emphasis></simpara>
+<figure>
+<title>Neutron Router</title>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="./images/groupbasedpolicy/neutronmapper-gbp-mapping-router.png" contentwidth="300"/>
+    </imageobject>
+    <textobject><phrase>neutronmapper gbp mapping router</phrase></textobject>
+  </mediaobject>
+</figure>
+
+<simpara>Neutron router is represented as a L3-context. This treats a router as a Layer3 namespace, and hence every network attached to it a part
+of that Layer3 namespace.</simpara>
+<simpara>This allows for multiple routers per tenant with complete isolation.</simpara>
+<simpara>The mapping of the router to an endpoint represents the router&#8217;s interface or gateway port.</simpara>
+<simpara>The mapping to an EndpointGroup represents the internal infrastructure EndpointGroups created by the <emphasis role="strong">GBP</emphasis> Neutron Mapper</simpara>
+<simpara>When a Neutron router interface is attached to a network/subnet, that network/subnet and its associated endpoints or Neutron Ports are seamlessly added to the namespace.</simpara>
+<simpara><emphasis role="strong">Neutron FloatingIP</emphasis></simpara>
+<simpara>When associated with a Neutron Port, this leverages the <emphasis role="strong">GBP</emphasis> OfOverlay renderer&#8217;s NAT capabilities.</simpara>
+<simpara>A dedicated <emphasis>external</emphasis> interface on each Nova compute host allows for disitributed external access. Each Nova instance associated with a
+FloatingIP address can access the external network directly without having to route via the Neutron controller, or having to enable any form
+of Neutron distributed routing functionality.</simpara>
+<simpara>Assuming the gateway provisioned in the Neutron Subnet command for the external network is reachable, the combination of <emphasis role="strong">GBP</emphasis> Neutron Mapper and
+OfOverlay renderer will automatically ARP for this default gateway, requiring no user intervention.</simpara>
+<simpara><emphasis role="strong">Troubleshooting within GBP</emphasis></simpara>
+<simpara>Logging level for the mapping functionality can be set for package org.opendaylight.groupbasedpolicy.neutron.mapper. An example of enabling TRACE logging level on karaf console:</simpara>
+
+<literallayout class="monospaced">log:set TRACE org.opendaylight.groupbasedpolicy.neutron.mapper</literallayout>
+
+
+<simpara><emphasis role="strong">Neutron mapping example</emphasis></simpara>
+<simpara>As an example for mapping can be used creation of Neutron network, subnet and port.
+When a Neutron network is created 3 <emphasis role="strong">GBP</emphasis> entities are created: l2-flood-domain, l2-bridge-domain, l3-context.</simpara>
+<figure>
+<title>Neutron network mapping</title>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="./images/groupbasedpolicy/neutronmapper-gbp-mapping-network-example.png" contentwidth="500"/>
+    </imageobject>
+    <textobject><phrase>neutronmapper gbp mapping network example</phrase></textobject>
+  </mediaobject>
+</figure>
+
+<simpara>After an subnet is created in the network mapping looks like this.</simpara>
+<figure>
+<title>Neutron subnet mapping</title>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="./images/groupbasedpolicy/neutronmapper-gbp-mapping-subnet-example.png" contentwidth="500"/>
+    </imageobject>
+    <textobject><phrase>neutronmapper gbp mapping subnet example</phrase></textobject>
+  </mediaobject>
+</figure>
+
+<simpara>If an Neutron port is created in the subnet an endpoint and l3-endpoint are created. The endpoint has key composed from l2-bridge-domain and MAC address from Neutron port. A key of l3-endpoint is compesed from l3-context and IP address. The network containment of endpoint and l3-endpoint points to the subnet.</simpara>
+<figure>
+<title>Neutron port mapping</title>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="./images/groupbasedpolicy/neutronmapper-gbp-mapping-port-example.png" contentwidth="500"/>
+    </imageobject>
+    <textobject><phrase>neutronmapper gbp mapping port example</phrase></textobject>
+  </mediaobject>
+</figure>
+
+</section>
+<section xml:id="_configuring_gbp_neutron">
+<title>Configuring GBP Neutron</title>
+<simpara>No intervention passed initial OpenStack setup is required by the user.</simpara>
+<simpara>More information about configuration can be found in our DevStack demo environment on the <link xlink:href="https://wiki.opendaylight.org/view/Group_Based_Policy_(GBP)"><emphasis role="strong">GBP</emphasis> wiki</link>.</simpara>
+</section>
+<section xml:id="_administering_or_managing_gbp_neutron">
+<title>Administering or Managing GBP Neutron</title>
+<simpara>For consistencies sake, all provisioning should be performed via the Neutron API. (CLI or Horizon).</simpara>
+<simpara>The mapped policies can be augmented via the <emphasis role="strong">GBP</emphasis> UX,UX, to:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Enable Service Function Chaining</simpara>
+</listitem>
+<listitem>
+<simpara>Add endpoints from outside of Neutron i.e. VMs/containers not provisioned in OpenStack</simpara>
+</listitem>
+<listitem>
+<simpara>Augment policies/contracts derived from Security Group Rules</simpara>
+</listitem>
+<listitem>
+<simpara>Overlay additional contracts or groupings</simpara>
+</listitem>
+</itemizedlist>
+
+</section>
+<section xml:id="_tutorials">
+<title>Tutorials</title>
+<simpara>A DevStack demo environment can be found on the <link xlink:href="https://wiki.opendaylight.org/view/Group_Based_Policy_(GBP)"><emphasis role="strong">GBP</emphasis> wiki</link>.</simpara>
+</section>
+</section>
+<section xml:id="_openstack_with_virtual_tenant_network">
+<title>OpenStack with Virtual Tenant Network</title>
+<simpara>This section describes using OpenDaylight with the VTN manager feature providing network service for OpenStack. VTN manager utilizes the OVSDB southbound service and Neutron for this implementation. The below diagram depicts the communication of OpenDaylight and two virtual networks connected by an OpenFlow switch using this implementation.</simpara>
+<figure>
+<title>OpenStack Architecture</title>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="./images/vtn/OpenStackDeveloperGuide.png" contentwidth="500"/>
+    </imageobject>
+    <textobject><phrase>OpenStack Architecture</phrase></textobject>
+  </mediaobject>
+</figure>
+
+<section xml:id="_configure_openstack_to_work_with_opendaylight_vtn_feature_using_packstack">
+<title>Configure OpenStack to work with OpenDaylight(VTN Feature) using PackStack</title>
+<section xml:id="_prerequisites_to_install_openstack_using_packstack">
+<title>Prerequisites to install OpenStack using PackStack</title>
+<itemizedlist>
+<listitem>
+<simpara>Fresh CentOS 7.1 minimal install</simpara>
+</listitem>
+<listitem>
+<simpara>Use the below commands to disable and remove Network Manager in CentOS 7.1,</simpara>
+
+<literallayout class="monospaced"># systemctl stop NetworkManager
+# systemctl disable NetworkManager</literallayout>
+
+
+</listitem>
+<listitem>
+<simpara>To make SELINUX as permissive, please open the file "/etc/sysconfig/selinux" and change it as "SELINUX=permissive".</simpara>
+</listitem>
+<listitem>
+<simpara>After making selinux as permissive, please restart the CentOS 7.1 machine.</simpara>
+</listitem>
+</itemizedlist>
+
+</section>
+<section xml:id="_steps_to_install_openstack_packstack_in_centos_7_1">
+<title>Steps to install OpenStack PackStack in CentOS 7.1</title>
+<itemizedlist>
+<listitem>
+<simpara>To install OpenStack juno, use the following command,</simpara>
+
+<literallayout class="monospaced"># yum update -y
+# yum -y install https://repos.fedorapeople.org/repos/openstack/openstack-juno/rdo-release-juno-1.noarch.rpm</literallayout>
+
+
+</listitem>
+<listitem>
+<simpara>To install the packstack installer, please use the below command,</simpara>
+
+<literallayout class="monospaced"># yum -y install openstack-packstack</literallayout>
+
+
+</listitem>
+<listitem>
+<simpara>To create all-in-one setup, please use the below command,</simpara>
+
+<literallayout class="monospaced"># packstack --allinone --provision-demo=n --provision-all-in-one-ovs-bridge=n</literallayout>
+
+
+</listitem>
+<listitem>
+<simpara>This will end up with Horizon started successfully message.</simpara>
+</listitem>
+</itemizedlist>
+
+</section>
+<section xml:id="_steps_to_install_and_deploy_opendaylight_in_centos_7_1">
+<title>Steps to install and deploy OpenDaylight in CentOS 7.1</title>
+<itemizedlist>
+<listitem>
+<simpara>Download the latest lithium distribution code in the below link,</simpara>
+
+<literallayout class="monospaced"># wget https://nexus.opendaylight.org/content/groups/public/org/opendaylight/integration/distribution-karaf/0.3.1-Lithium-SR1/distribution-karaf-0.3.1-Lithium-SR1.zip</literallayout>
+
+
+</listitem>
+<listitem>
+<simpara>Unzip the lithium distribution code by using the below command,</simpara>
+
+<literallayout class="monospaced"># unzip distribution-karaf-0.3.1-Lithium-SR1.zip</literallayout>
+
+
+</listitem>
+<listitem>
+<simpara>Please do the below steps in the OpenDaylight to change jetty port,</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Change the jetty port from 8080 to something else as swift proxy of OpenStack is using it.</simpara>
+</listitem>
+<listitem>
+<simpara>Open the file "etc/jetty.xml" and change the jetty port from 8080 to 8910 (we have used 8910 as jetty port you can use any other number).</simpara>
+</listitem>
+<listitem>
+<simpara>Start VTN Manager and install odl-vtn-manager-neutron in it.</simpara>
+</listitem>
+<listitem>
+<simpara>Ensure all the required ports(6633/6653,6640 and 8910) are in the listen mode by using the command "netstat -tunpl" in OpenDaylight.</simpara>
+</listitem>
+</itemizedlist>
+
+</listitem>
+</itemizedlist>
+
+</section>
+<section xml:id="_steps_to_reconfigure_openstack_in_centos_7_1">
+<title>Steps to reconfigure OpenStack in CentOS 7.1</title>
+<itemizedlist>
+<listitem>
+<simpara>Steps to stop Open vSwitch Agent and clean up ovs</simpara>
+
+<literallayout class="monospaced"># sudo systemctl stop neutron-openvswitch-agent
+# sudo systemctl disable neutron-openvswitch-agent
+# sudo systemctl stop openvswitch
+# sudo rm -rf /var/log/openvswitch/*
+# sudo rm -rf /etc/openvswitch/conf.db
+# sudo systemctl start openvswitch
+# sudo ovs-vsctl show</literallayout>
+
+
+</listitem>
+<listitem>
+<simpara>Stop Neutron Server</simpara>
+
+<literallayout class="monospaced"># systemctl stop neutron-server</literallayout>
+
+
+</listitem>
+<listitem>
+<simpara>Verify that OpenDaylight&#8217;s ML2 interface is working:</simpara>
+
+<literallayout class="monospaced">curl -v admin:admin http://{CONTROL_HOST}:{PORT}/controller/nb/v2/neutron/networks
+
+{
+   "networks" : [ ]
+}</literallayout>
+
+
+<simpara>If this does not work or gives an error, check Neutron&#8217;s log file in
+<literal>/var/log/neutron/server.log</literal>. Error messages here should give
+some clue as to what the problem is in the connection with OpenDaylight</simpara>
+</listitem>
+<listitem>
+<simpara>Configure Neutron to use OpenDaylight&#8217;s ML2 driver:</simpara>
+
+<literallayout class="monospaced"># sudo crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini ml2 mechanism_drivers opendaylight
+# sudo crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini ml2 tenant_network_types local
+# sudo crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini ml2 type_drivers local
+# sudo crudini --set /etc/neutron/dhcp_agent.ini DEFAULT ovs_use_veth True
+
+# cat &lt;&lt;EOT | sudo tee -a /etc/neutron/plugins/ml2/ml2_conf.ini &gt; /dev/null
+  [ml2_odl]
+  password = admin
+  username = admin
+  url = http://{CONTROL_HOST}:{PORT}/controller/nb/v2/neutron
+  EOT</literallayout>
+
+
+</listitem>
+<listitem>
+<simpara>Reset Neutron&#8217;s ML2 database</simpara>
+
+<literallayout class="monospaced"># sudo mysql -e "drop database if exists neutron_ml2;"
+# sudo mysql -e "create database neutron_ml2 character set utf8;"
+# sudo mysql -e "grant all on neutron_ml2.* to 'neutron'@'%';"
+# sudo neutron-db-manage --config-file /usr/share/neutron/neutron-dist.conf --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugin.ini upgrade head</literallayout>
+
+
+</listitem>
+<listitem>
+<simpara>Start Neutron Server</simpara>
+
+<literallayout class="monospaced"># sudo systemctl start neutron-server</literallayout>
+
+
+</listitem>
+<listitem>
+<simpara>Restart the Neutron DHCP service</simpara>
+
+<literallayout class="monospaced"># system restart neutron-dhcp-agent.service</literallayout>
+
+
+</listitem>
+<listitem>
+<simpara>At this stage, your Open vSwitch configuration should be empty:</simpara>
+
+<literallayout class="monospaced">[root@dneary-odl-compute2 ~]# ovs-vsctl show
+686989e8-7113-4991-a066-1431e7277e1f
+    ovs_version: "2.3.1"</literallayout>
+
+
+</listitem>
+<listitem>
+<simpara>Set OpenDaylight as the manager on all nodes</simpara>
+
+<literallayout class="monospaced"># ovs-vsctl set-manager  tcp:127.0.0.1:6640</literallayout>
+
+
+</listitem>
+<listitem>
+<simpara>You should now see a section in your Open vSwitch configuration
+showing that you are connected to the OpenDaylight server, and OpenDaylight
+will automatically create a br-int bridge:</simpara>
+
+<literallayout class="monospaced">[root@dneary-odl-compute2 ~]# ovs-vsctl show
+686989e8-7113-4991-a066-1431e7277e1f
+    Manager "tcp:127.0.0.1:6640"
+        is_connected: true
+    Bridge br-int
+        Controller "tcp:127.0.0.1:6633"
+            is_connected: true
+        fail_mode: secure
+        Port "ens33"
+            Interface "ens33"
+    ovs_version: "2.3.1"</literallayout>
+
+
+</listitem>
+<listitem>
+<simpara>Add the default flow to OVS to forward packets to controller when there is a table-miss,</simpara>
+
+<literallayout class="monospaced">ovs-ofctl --protocols=OpenFlow13 add-flow br-int priority=0,actions=output:CONTROLLER</literallayout>
+
+
+</listitem>
+<listitem>
+<simpara>Please see the <link xlink:href="https://wiki.opendaylight.org/view/Release/Lithium/VTN/User_Guide/Openstack_Packstack_Support">VTN OpenStack PackStack support guide on the wiki</link> to create VM&#8217;s from OpenStack Horizon GUI.</simpara>
+</listitem>
+</itemizedlist>
+
+</section>
+</section>
+<section xml:id="_implementation_details">
+<title>Implementation details</title>
+<section xml:id="_vtn_manager">
+<title>VTN Manager:</title>
+<simpara>Install <emphasis role="strong">odl-vtn-manager-neutron</emphasis> feature which provides the integration with Neutron interface.</simpara>
+
+<literallayout class="monospaced">feature:install odl-vtn-manager-neutron</literallayout>
+
+
+<simpara>It subscribes to the events from Open vSwitch and also implements the Neutron requests received by OpenDaylight.</simpara>
+</section>
+<section xml:id="_functional_behavior">
+<title>Functional Behavior</title>
+<itemizedlist>
+<title>StartUp:</title>
+<listitem>
+<simpara>The ML2 implementation for OpenDaylight will ensure that when Open vSwitch is started, the ODL_IP_ADDRESS configured will be set as manager.</simpara>
+</listitem>
+<listitem>
+<simpara>When OpenDaylight receives the update of the Open vSwitch on port 6640 (manager port), VTN Manager handles the event and adds a bridge with required port mappings to the Open vSwitch at the OpenStack node.</simpara>
+</listitem>
+<listitem>
+<simpara>When Neutron starts up, a new network create is POSTed to OpenDaylight, for which VTN Manager creates a Virtual Tenant Network.</simpara>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Network and Sub-Network Create:</emphasis> Whenever a new sub network is created, VTN Manager will handle the same and create a vbridge under the VTN.</simpara>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">VM Creation in OpenStack:</emphasis> The interface mentioned as integration bridge in the configuration file will be added with more interfaces on creation of a new VM in OpenStack and the network is provisioned for it by the VTN Neutron feature. The addition of a new port is captured by the VTN Manager and it creates a vbridge interface with port mapping for the particular port. When the VM starts to communicate with other VMs, the VTN Manger will install flows in the Open vSwitch and other OpenFlow switches to facilitate communication between them.</simpara>
+</listitem>
+</itemizedlist>
+
+<note>
+<simpara>  To use this feature, VTN feature should be installed</simpara>
+</note>
+
+</section>
+</section>
+<section xml:id="_reference">
+<title>Reference</title>
+<simpara><link xlink:href="https://wiki.opendaylight.org/images/5/5c/Integration_of_vtn_and_ovsdb_for_helium.pdf">https://wiki.opendaylight.org/images/5/5c/Integration_of_vtn_and_ovsdb_for_helium.pdf</link></simpara>
+</section>
+</section>
+</chapter>
+</book>

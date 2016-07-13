@@ -1,0 +1,2857 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>OpenDaylight Getting Started Guide &mdash; OpenDaylight Documentation Boron documentation</title>
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.3.6/united/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     'Boron',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="OpenDaylight Documentation Boron documentation" href="../index.html" />
+    <link rel="next" title="OpenDaylight and OpenStack" href="../howto-openstack/index.html" />
+    <link rel="prev" title="Welcome to the OpenDaylight Handbook!" href="../index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html"><span><img src="../_static/odl_small.png"></span>
+          OpenDaylight Documentation</a>
+        <span class="navbar-text navbar-version pull-left"><b>Boron</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">OpenDaylight Getting Started Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howto-openstack/index.html">OpenDaylight and OpenStack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/index.html">OpenDaylight User Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developer-guide/index.html">OpenDaylight Developer Guide</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">OpenDaylight Getting Started Guide</a><ul>
+<li><a class="reference internal" href="#opendaylight-release-notes">OpenDaylight Release Notes</a><ul>
+<li><a class="reference internal" href="#target-environment">Target Environment</a><ul>
+<li><a class="reference internal" href="#for-execution">For Execution</a></li>
+<li><a class="reference internal" href="#for-development">For Development</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#known-issues-and-limitations">Known Issues and Limitations</a></li>
+<li><a class="reference internal" href="#project-specific-release-notes">Project-specific Release Notes</a><ul>
+<li><a class="reference internal" href="#projects-without-release-notes">Projects without Release Notes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#getting-and-installing-opendaylight">Getting and Installing OpenDaylight</a><ul>
+<li><a class="reference internal" href="#downloading-and-installing-opendaylight">Downloading and installing OpenDaylight</a><ul>
+<li><a class="reference internal" href="#running-the-karaf-distribution">Running the karaf distribution</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#installing-the-components">Installing the components</a><ul>
+<li><a class="reference internal" href="#listing-available-features">Listing available features</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#installing-support-for-rest-apis">Installing support for REST APIs</a></li>
+<li><a class="reference internal" href="#installing-md-sal-clustering">Installing MD-SAL clustering</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#opendaylight-overview">OpenDaylight Overview</a></li>
+<li><a class="reference internal" href="#using-the-opendaylight-user-interface-dlux">Using the OpenDaylight User Interface (DLUX)</a><ul>
+<li><a class="reference internal" href="#getting-started-with-dlux">Getting Started with DLUX</a></li>
+<li><a class="reference internal" href="#logging-in">Logging In</a></li>
+<li><a class="reference internal" href="#working-with-dlux">Working with DLUX</a></li>
+<li><a class="reference internal" href="#viewing-network-statistics">Viewing Network Statistics</a></li>
+<li><a class="reference internal" href="#viewing-network-topology">Viewing Network Topology</a></li>
+<li><a class="reference internal" href="#interacting-with-the-yang-based-md-sal-datastore">Interacting with the YANG-based MD-SAL datastore</a><ul>
+<li><a class="reference internal" href="#displaying-topology-on-the-yang-ui">Displaying Topology on the <strong>Yang UI</strong></a></li>
+<li><a class="reference internal" href="#configuring-list-elements-on-the-yang-ui">Configuring List Elements on the <strong>Yang UI</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#running-xsql-console-commands-and-queries">Running XSQL Console Commands and Queries</a><ul>
+<li><a class="reference internal" href="#xsql-overview">XSQL Overview</a></li>
+<li><a class="reference internal" href="#installing-xsql">Installing XSQL</a></li>
+<li><a class="reference internal" href="#xsql-console-commands">XSQL Console Commands</a></li>
+<li><a class="reference internal" href="#xsql-queries">XSQL Queries</a><ul>
+<li><a class="reference internal" href="#example-skip-criteria-operator">Example: Skip Criteria Operator</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#setting-up-clustering">Setting Up Clustering</a><ul>
+<li><a class="reference internal" href="#clustering-overview">Clustering Overview</a></li>
+<li><a class="reference internal" href="#single-node-clustering">Single Node Clustering</a></li>
+<li><a class="reference internal" href="#multiple-node-clustering">Multiple Node Clustering</a><ul>
+<li><a class="reference internal" href="#deployment-considerations">Deployment Considerations</a></li>
+<li><a class="reference internal" href="#setting-up-a-multiple-node-cluster">Setting Up a Multiple Node Cluster</a><ul>
+<li><a class="reference internal" href="#sample-config-files">Sample Config Files</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#security-considerations">Security Considerations</a><ul>
+<li><a class="reference internal" href="#overview-of-opendaylight-security">Overview of OpenDaylight Security</a></li>
+<li><a class="reference internal" href="#opendaylight-security-resources">OpenDaylight Security Resources</a></li>
+<li><a class="reference internal" href="#deployment-recommendations">Deployment Recommendations</a></li>
+<li><a class="reference internal" href="#securing-osgi-bundles">Securing OSGi bundles</a></li>
+<li><a class="reference internal" href="#securing-the-karaf-container">Securing the Karaf container</a><ul>
+<li><a class="reference internal" href="#disabling-the-remote-shutdown-port">Disabling the remote shutdown port</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#securing-southbound-plugins">Securing Southbound Plugins</a></li>
+<li><a class="reference internal" href="#securing-opendaylight-using-aaa">Securing OpenDaylight using AAA</a></li>
+<li><a class="reference internal" href="#security-considerations-for-clustering">Security Considerations for Clustering</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#opflex-agent-ovs-install-guide">OpFlex agent-ovs Install Guide</a><ul>
+<li><a class="reference internal" href="#required-packages">Required Packages</a></li>
+<li><a class="reference internal" href="#host-networking-configuration">Host Networking Configuration</a></li>
+<li><a class="reference internal" href="#ovs-bridge-configuration">OVS Bridge Configuration</a></li>
+<li><a class="reference internal" href="#agent-configuration">Agent Configuration</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ovsdb-openstack-installation-guide">OVSDB OpenStack Installation Guide</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#preparing-for-installation">Preparing for Installation</a></li>
+<li><a class="reference internal" href="#installing-ovsdb-openstack">Installing OVSDB OpenStack</a><ul>
+<li><a class="reference internal" href="#sample-output-from-the-karaf-console">Sample output from the Karaf console</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#verifying-your-installation">Verifying your Installation</a><ul>
+<li><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#uninstalling-ovsdb-openstack">Uninstalling OVSDB OpenStack</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ovsdb-service-function-chaining-installation-guide">OVSDB Service Function Chaining Installation Guide</a><ul>
+<li><a class="reference internal" href="#id1">Overview</a></li>
+<li><a class="reference internal" href="#id2">Preparing for Installation</a></li>
+<li><a class="reference internal" href="#installing-ovsdb-service-function-chaining">Installing OVSDB Service Function Chaining</a><ul>
+<li><a class="reference internal" href="#id3">Sample output from the Karaf console</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id4">Verifying your Installation</a><ul>
+<li><a class="reference internal" href="#id5">Troubleshooting</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#uninstalling-ovsdb-service-function-chaining">Uninstalling OVSDB Service Function Chaining</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ovsdb-netvirt-hardware-vtep-installation-guide">OVSDB NetVirt Hardware VTEP Installation Guide</a><ul>
+<li><a class="reference internal" href="#id6">Overview</a></li>
+<li><a class="reference internal" href="#id7">Preparing for Installation</a></li>
+<li><a class="reference internal" href="#installing-ovsdb-netvirt-hardware-vtep">Installing OVSDB NetVirt Hardware VTEP</a><ul>
+<li><a class="reference internal" href="#id8">Sample output from the Karaf console</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id9">Verifying your Installation</a><ul>
+<li><a class="reference internal" href="#id10">Troubleshooting</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#uninstalling-ovsdb-netvirt-hardware-vtep">Uninstalling OVSDB NetVirt Hardware VTEP</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#tsdr-installation-guide">TSDR Installation Guide</a><ul>
+<li><a class="reference internal" href="#id11">Overview</a></li>
+<li><a class="reference internal" href="#pre-requisites-for-installing-tsdr">Pre Requisites for Installing TSDR</a></li>
+<li><a class="reference internal" href="#id12">Preparing for Installation</a></li>
+<li><a class="reference internal" href="#installing-tsdr-data-stores">Installing TSDR Data Stores</a><ul>
+<li><a class="reference internal" href="#installing-hsqldb-data-store">Installing HSQLDB Data Store</a></li>
+<li><a class="reference internal" href="#installing-hbase-data-store">Installing HBase Data Store</a></li>
+<li><a class="reference internal" href="#installing-cassandra-data-store">Installing Cassandra Data Store</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id13">Verifying your Installation</a><ul>
+<li><a class="reference internal" href="#id14">Troubleshooting</a></li>
+<li><a class="reference internal" href="#post-installation-configuration">Post Installation Configuration</a><ul>
+<li><a class="reference internal" href="#post-installation-configuration-for-hsqldb-data-store">Post Installation Configuration for HSQLDB Data Store</a></li>
+<li><a class="reference internal" href="#post-installation-configuration-for-hbase-data-store">Post Installation Configuration for HBase Data Store</a></li>
+<li><a class="reference internal" href="#post-installation-configuration-for-cassandra-data-store">Post Installation Configuration for Cassandra Data Store</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#upgrading-from-a-previous-release">Upgrading From a Previous Release</a></li>
+<li><a class="reference internal" href="#uninstalling-tsdr-data-stores">Uninstalling TSDR Data Stores</a><ul>
+<li><a class="reference internal" href="#to-uninstall-tsdr-hsqldb-data-store">To uninstall TSDR HSQLDB data store</a></li>
+<li><a class="reference internal" href="#to-uninstall-tsdr-hbase-data-store">To uninstall TSDR HBase Data Store</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#vtn-installation-guide">VTN Installation Guide</a><ul>
+<li><a class="reference internal" href="#id15">Overview</a><ul>
+<li><a class="reference internal" href="#vtn-manager">VTN Manager</a></li>
+<li><a class="reference internal" href="#vtn-coordinator">VTN Coordinator</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id16">Preparing for Installation</a><ul>
+<li><a class="reference internal" href="#id17">VTN Manager</a><ul>
+<li><a class="reference internal" href="#id18">Running the Karaf distribution</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id19">VTN Coordinator</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#installing-vtn">Installing VTN</a><ul>
+<li><a class="reference internal" href="#id20">VTN Manager</a></li>
+<li><a class="reference internal" href="#id21">VTN Coordinator</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id22">Verifying your Installation</a><ul>
+<li><a class="reference internal" href="#id23">VTN Manager</a></li>
+<li><a class="reference internal" href="#id24">VTN Coordinator</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#uninstalling-vtn">Uninstalling VTN</a><ul>
+<li><a class="reference internal" href="#id25">VTN Manager</a></li>
+<li><a class="reference internal" href="#id26">VTN Coordinator</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="../index.html" title="Previous Chapter: Welcome to the OpenDaylight Handbook!"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Welcome to th...</span>
+    </a>
+  </li>
+  <li>
+    <a href="../howto-openstack/index.html" title="Next Chapter: OpenDaylight and OpenStack"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">OpenDaylight ... &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../_sources/getting-started-guide/index.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="opendaylight-getting-started-guide">
+<h1>OpenDaylight Getting Started Guide<a class="headerlink" href="#opendaylight-getting-started-guide" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">OpenDaylight Community <a class="reference external" href="mailto:documentation&#37;&#52;&#48;opendaylight&#46;org">documentation<span>&#64;</span>opendaylight<span>&#46;</span>org</a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Date:</th><td class="field-body">2014-07-16</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="opendaylight-release-notes">
+<h2>OpenDaylight Release Notes<a class="headerlink" href="#opendaylight-release-notes" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="target-environment">
+<h3>Target Environment<a class="headerlink" href="#target-environment" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="for-execution">
+<h4>For Execution<a class="headerlink" href="#for-execution" title="Permalink to this headline">¶</a></h4>
+<p>The OpenDaylight Karaf container, OSGi bundles, and Java class files are
+portable and should run on any Java 7- or Java 8-compliant JVM to run.
+Certain projects and certain features of some projects may have
+additional requirements. Those are noted in the project-specific release
+notes.</p>
+<p>Projects and features which have known additional requirements are: *
+TCP-MD5 requires 64-bit Linux * TSDR has extended requirements for
+external databases * Persistence has extended requirements for external
+databases * SFC requires addition features for certain configurations
+* SXP depends on TCP-MD5 on thus requires 64-bit Linux * SNBI has
+requirements for Linux and Docker * OpFlex requires Linux * DLUX
+requires a modern web browser to view the UI * AAA when using
+federation has additional requirements for external tools * VTN has
+components which require Linux</p>
+<blockquote>
+<div><p><strong>Note</strong></p>
+<p>If you are using the Oracle JDK, version 1.7.0_45 or later is
+required.</p>
+</div></blockquote>
+</div>
+<div class="section" id="for-development">
+<h4>For Development<a class="headerlink" href="#for-development" title="Permalink to this headline">¶</a></h4>
+<p>OpenDaylight is written primarily in Java project and primarily uses
+Maven as a build tool Consequently the two main requirements to develop
+projects within OpenDaylight are:</p>
+<ul class="simple">
+<li>A Java 7- or Java 8-compliant JDK</li>
+<li>Maven 3.1.1 or later</li>
+</ul>
+<p>Applications and tools built on top of OpenDaylight using it’s REST APIs
+should have no special requirements beyond whatever is needed to run the
+application or tool and make the REST calls.</p>
+<p>In some places, OpenDaylight makes use of the Xtend language. While
+Maven will download the appropriate tools to build this, additional
+plugins may be required for IDE support.</p>
+<p>The projects with additional requirements for execution typically have
+similar or more extensive additional requirements for development. See
+the project-specific release notes for details.</p>
+</div>
+</div>
+<div class="section" id="known-issues-and-limitations">
+<h3>Known Issues and Limitations<a class="headerlink" href="#known-issues-and-limitations" title="Permalink to this headline">¶</a></h3>
+<p>Other than as noted in project-specific release notes, we know of the
+following limitations:</p>
+<ol class="arabic simple">
+<li>Migration from Helium and Lithium to Beryllium has not been
+extensively tested. The per-project release notes include migration
+and compatibility information when it is known.</li>
+<li>There are scales beyond which the controller has been unreliable when
+collecting flow statistics from OpenFlow switches. In tests, these
+issues became apparent when managing thousands of OpenFlow switches,
+however this may vary depending on deployment and use cases.</li>
+</ol>
+</div>
+<div class="section" id="project-specific-release-notes">
+<h3>Project-specific Release Notes<a class="headerlink" href="#project-specific-release-notes" title="Permalink to this headline">¶</a></h3>
+<p>For the release notes of individual projects, please see the following
+pages on the OpenDaylight Wiki.</p>
+<p>TBD: add Beryllium release notes</p>
+<div class="section" id="projects-without-release-notes">
+<h4>Projects without Release Notes<a class="headerlink" href="#projects-without-release-notes" title="Permalink to this headline">¶</a></h4>
+<p>The following projects participated in Beryllium, but intentionally do
+not have release notes.</p>
+<ul class="simple">
+<li><strong>Documentation Project</strong> produced this and the other downloadable
+documentation</li>
+<li><strong>Integration Group</strong> hosted the OpenDaylight-wide tests and main
+release distribution</li>
+<li><strong>Release Engineering - autorelease</strong> was used to build the Beryllium
+release artifacts and including the main release download.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="getting-and-installing-opendaylight">
+<h2>Getting and Installing OpenDaylight<a class="headerlink" href="#getting-and-installing-opendaylight" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="downloading-and-installing-opendaylight">
+<h3>Downloading and installing OpenDaylight<a class="headerlink" href="#downloading-and-installing-opendaylight" title="Permalink to this headline">¶</a></h3>
+<p>The default distribution can be found on the OpenDaylight software
+download page: <a class="reference external" href="http://www.opendaylight.org/software/downloads">http://www.opendaylight.org/software/downloads</a></p>
+<p>The Karaf distribution has no features enabled by default. However, all
+of the features are available to be installed.</p>
+<blockquote>
+<div><p><strong>Note</strong></p>
+<p>For compatibility reasons, you cannot enable all the features
+simultaneously. We try to document known incompatibilities
+<a class="reference external" href="#_installing_the_components">below</a>.</p>
+</div></blockquote>
+<div class="section" id="running-the-karaf-distribution">
+<h4>Running the karaf distribution<a class="headerlink" href="#running-the-karaf-distribution" title="Permalink to this headline">¶</a></h4>
+<p>To run the Karaf distribution:</p>
+<ol class="arabic simple">
+<li>Unzip the zip file.</li>
+<li>Navigate to the directory.</li>
+<li>run <code class="docutils literal"><span class="pre">./bin/karaf</span></code>.</li>
+</ol>
+<p>For Example:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><div class="first highlight-default"><div class="highlight"><pre><span></span>   $ ls distribution-karaf-0.4.0-Beryllium.zip
+   distribution-karaf-0.4.0-Beryllium.zip
+   $ unzip distribution-karaf-0.4.0-Beryllium.zip
+   Archive:  distribution-karaf-0.4.0-Beryllium.zip
+      creating: distribution-karaf-0.4.0-Beryllium/
+      creating: distribution-karaf-0.4.0-Beryllium/configuration/
+      creating: distribution-karaf-0.4.0-Beryllium/data/
+      creating: distribution-karaf-0.4.0-Beryllium/data/tmp/
+      creating: distribution-karaf-0.4.0-Beryllium/deploy/
+      creating: distribution-karaf-0.4.0-Beryllium/etc/
+      creating: distribution-karaf-0.4.0-Beryllium/externalapps/
+   ...
+     inflating: distribution-karaf-0.4.0-Beryllium/bin/start.bat
+     inflating: distribution-karaf-0.4.0-Beryllium/bin/status.bat
+     inflating: distribution-karaf-0.4.0-Beryllium/bin/stop.bat
+   $ cd distribution-karaf-0.4.0-Beryllium
+   $ ./bin/karaf
+
+       ________                       ________                .__  .__
+     .__     __
+       \_____  \ ______   ____   ____ \______ \ _____  ___.__.|  | |__|
+____ |  |___/  |_
+        /   |   \\____ \_/ __ \ /    \ |    |  \\__  \&lt;   |  ||  | |  |
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>/ ___|  |    __</dt>
+<dd><blockquote class="first">
+<div>/    |     <a href="#id36"><span class="problematic" id="id37">|_&gt; &gt;  ___/|</span></a>   |  |    `   / __ \___  ||  <a href="#id38"><span class="problematic" id="id39">|_|</span></a>  /</div></blockquote>
+<dl class="last docutils">
+<dt>/_/  &gt;   Y   |</dt>
+<dd>_______  /   __/ ___  &gt;___|  /_______  (____  / ____||____/__</dd>
+</dl>
+</dd>
+<dt>___  /<a href="#id40"><span class="problematic" id="id41">|___|</span></a>  /__|</dt>
+<dd>/<a href="#id42"><span class="problematic" id="id43">|__|</span></a>        /     /        /     //            /_</dd>
+</dl>
+<p>____/      /</p>
+<ul class="last simple">
+<li>Press <strong>tab</strong> for a list of available commands</li>
+<li>Typing <strong>[cmd] &#8211;help</strong> will show help for a specific command.</li>
+<li>Press <strong>ctrl-d</strong> or type <strong>system:shutdown</strong> or <strong>logout</strong> to
+shutdown OpenDaylight.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="installing-the-components">
+<h3>Installing the components<a class="headerlink" href="#installing-the-components" title="Permalink to this headline">¶</a></h3>
+<p>The section describes a list of components in OpenDaylight Beryllium and
+the relevant Karaf feature to install in order to enable that component.</p>
+<p>To install a feature use the following command:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">feature</span><span class="p">:</span><span class="n">install</span>
+</pre></div>
+</div>
+<p>For Example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">feature</span><span class="p">:</span><span class="n">install</span> <span class="o">&lt;</span><span class="n">feature</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Multiple features can be installed using the following command:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">feature</span><span class="p">:</span><span class="n">install</span> <span class="o">&lt;</span><span class="n">feature1</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">feature2</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span> <span class="o">...</span> <span class="o">&lt;</span><span class="n">featureN</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="18%" />
+<col width="49%" />
+<col width="18%" />
+<col width="15%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Component
+Name</th>
+<th class="head">Component Description</th>
+<th class="head">Karaf
+feature name</th>
+<th class="head">Compatibil
+ity</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>ALTO</td>
+<td>Enable support for Application-Layer
+Traffic Optimization</td>
+<td>odl-alto-all</td>
+<td>self+all</td>
+</tr>
+<tr class="row-odd"><td>BGP</td>
+<td>Enables support for BGP</td>
+<td>odl-bgpcep-b
+gp-all</td>
+<td>all</td>
+</tr>
+<tr class="row-even"><td>CAPWAP</td>
+<td>Enables control of supported
+wireless APs</td>
+<td>odl-capwap-a
+c-rest</td>
+<td>all</td>
+</tr>
+<tr class="row-odd"><td>DIDM</td>
+<td>Device Identification and Driver
+Management</td>
+<td>odl-didm-ide
+ntification-
+api,
+odl-didm-ide
+ntification,
+and
+odl-didm-dri
+vers-api</td>
+<td>all</td>
+</tr>
+<tr class="row-even"><td>Group Based
+Policy</td>
+<td>Enable Endpoint Registry and Policy
+Repository REST APIs and associated
+functionality for Group Based Policy</td>
+<td>odl-groupbas
+edpolicy-ofo
+verlay</td>
+<td>self+all</td>
+</tr>
+<tr class="row-odd"><td>Internet of
+Things Data
+Management</td>
+<td>Enables support for the oneM2M
+specification</td>
+<td>odl-iotdm-on
+em2m</td>
+<td>all</td>
+</tr>
+<tr class="row-even"><td>L2 Switch</td>
+<td>Provides L2 (Ethernet) forwarding
+across connected OppenFlow switches
+and support for host tracking</td>
+<td>odl-l2switch
+-switch-ui</td>
+<td>self+all</td>
+</tr>
+<tr class="row-odd"><td>LACP</td>
+<td>Enable support for the Link
+Aggregation Control Protocol</td>
+<td>odl-lacp-ui</td>
+<td>self+all</td>
+</tr>
+<tr class="row-even"><td>LISP Flow
+Mapping</td>
+<td>Enable LISP control plane services
+including the mapping system
+services REST API and LISP protocol
+SB plugin</td>
+<td>odl-lispflow
+mapping-all</td>
+<td>all</td>
+</tr>
+<tr class="row-odd"><td>MD-SAL
+Clustering</td>
+<td>Provides support for operating a
+cluster of OpenDaylight instances</td>
+<td>odl-mdsal-cl
+ustering</td>
+<td>special</td>
+</tr>
+<tr class="row-even"><td>NETCONF over
+SSH</td>
+<td>Provides support to manage
+NETCONF-enabled devices over SSH</td>
+<td>odl-netconf-
+connector-ss
+h</td>
+<td>all</td>
+</tr>
+<tr class="row-odd"><td>Network
+Intent
+Composition</td>
+<td>Enable support for high-level
+network control via intents</td>
+<td>odl-nic-core</td>
+<td>self+all</td>
+</tr>
+<tr class="row-even"><td>OVS
+Management</td>
+<td>Enables OVS management using OVSDB
+plugin and its associated OVSDB
+northbound APIs</td>
+<td>odl-ovsdb-al
+l</td>
+<td>all</td>
+</tr>
+<tr class="row-odd"><td>OVSDB
+OpenStack
+Neutron</td>
+<td>OpenStack Network Virtualization
+using OpenDaylight’s OVSDB support</td>
+<td>odl-ovsdb-op
+enstack</td>
+<td>self+all</td>
+</tr>
+<tr class="row-even"><td>OpFlex</td>
+<td>Enables support for the OpFlex
+protocol</td>
+<td>special (see
+user/develop
+er
+guide)</td>
+<td>all</td>
+</tr>
+<tr class="row-odd"><td>OpenFlow
+Flow
+Programming</td>
+<td>Enables discovery and control of
+OpenFlow switches and the topology
+between them</td>
+<td>odl-openflow
+plugin-flow-
+services-ui</td>
+<td>all</td>
+</tr>
+<tr class="row-even"><td>OpenFlow
+Table Type
+Patterns</td>
+<td>Allows OpenFlow Table Type Patterns
+to be manually associated with
+network elements</td>
+<td>odl-ttp-all</td>
+<td>all</td>
+</tr>
+<tr class="row-odd"><td>PCEP</td>
+<td>Enables support for PCEP</td>
+<td>odl-bgpcep-p
+cep-all</td>
+<td>all</td>
+</tr>
+<tr class="row-even"><td>Packetcable
+PCMM</td>
+<td>Enables flow-based dynamic QoS
+management of CMTS using in the
+DOCSIS infrastructure</td>
+<td>odl-packetca
+ble-all</td>
+<td>self+all</td>
+</tr>
+<tr class="row-odd"><td>Packetcable
+Policy
+Server</td>
+<td>Enables support for the PacketCable
+policy server</td>
+<td>odl-packetca
+ble-policy-s
+erver-all</td>
+<td>self+all</td>
+</tr>
+<tr class="row-even"><td>RESTCONF API
+Support</td>
+<td>Enables REST API access to the
+MD-SAL including the data store</td>
+<td>odl-restconf</td>
+<td>all</td>
+</tr>
+<tr class="row-odd"><td>SDN
+Interface</td>
+<td>Provides support for interaction and
+sharing of state between
+(non-clustered) OpenDaylight
+instances</td>
+<td>odl-sdninter
+faceapp-all</td>
+<td>all</td>
+</tr>
+<tr class="row-even"><td>SFC over L2</td>
+<td>Supports implementing SFC using
+Layer 2 forwarding</td>
+<td>odl-sfcofl2</td>
+<td>self+all</td>
+</tr>
+<tr class="row-odd"><td>SFC over
+LISP</td>
+<td>Supports implementing SFC using LISP</td>
+<td>odl-sfclisp</td>
+<td>all</td>
+</tr>
+<tr class="row-even"><td>SFC over
+REST</td>
+<td>Supports implementing SFC using REST
+CRUD operations on network elements</td>
+<td>odl-sfc-sb-r
+est</td>
+<td>all</td>
+</tr>
+<tr class="row-odd"><td>SFC over
+VXLAN</td>
+<td>Supports implementing SFC using
+VXLAN tunnels</td>
+<td>odl-sfc-ovs</td>
+<td>self+all</td>
+</tr>
+<tr class="row-even"><td>SNMP Plugin</td>
+<td>Enables monitoring and control of
+network elements via SNMP</td>
+<td>odl-snmp-plu
+gin</td>
+<td>all</td>
+</tr>
+<tr class="row-odd"><td>SNMP4SDN</td>
+<td>Enables OpenFlow-like control of
+network elements via SNMP</td>
+<td>odl-snmp4sdn
+-all</td>
+<td>all</td>
+</tr>
+<tr class="row-even"><td>SSSD
+Federated
+Authenticati
+on</td>
+<td>Enable support for federated
+authentication using SSSD</td>
+<td>odl-aaa-sssd
+-plugin</td>
+<td>all</td>
+</tr>
+<tr class="row-odd"><td>Secure
+Networking
+Bootstrap</td>
+<td>Defines a SNBI domain and associated
+white lists of devices to be
+accommodated to the domain</td>
+<td>odl-snbi-all</td>
+<td>self+all</td>
+</tr>
+<tr class="row-even"><td>Secure tag
+eXchange
+Protocol
+(SXP)</td>
+<td>Enables distribution of shared tags
+to network devices</td>
+<td>odl-sxp-cont
+roller</td>
+<td>all</td>
+</tr>
+<tr class="row-odd"><td>Service Flow
+Chaining
+(SFC)</td>
+<td>Enables support for applying chains
+of network services to certain
+traffic</td>
+<td>odl-sfc-all</td>
+<td>all</td>
+</tr>
+<tr class="row-even"><td>Time Series
+Data
+Repository
+(TSDR)</td>
+<td>Enables historical tracking of
+OpenFlow statistics</td>
+<td>odl-tsdr-all</td>
+<td>self+all</td>
+</tr>
+<tr class="row-odd"><td>Topology
+Processing
+Framework</td>
+<td>Enables merged and filtered views of
+network topologies</td>
+<td>odl-topoproc
+essing-frame
+work</td>
+<td>all</td>
+</tr>
+<tr class="row-even"><td>Unified
+Secure
+Channel
+(USC)</td>
+<td>Enables support for secure, remote
+connections to network devices</td>
+<td>odl-usc-chan
+nel-ui</td>
+<td>all</td>
+</tr>
+<tr class="row-odd"><td>VPN Service</td>
+<td>Enables support for OpenStack VPNaaS</td>
+<td>odl-vpnservi
+ce-core</td>
+<td>all</td>
+</tr>
+<tr class="row-even"><td>VTN Manager</td>
+<td>Enables Virtual Tenant Network
+support</td>
+<td>odl-vtn-mana
+ger-rest</td>
+<td>self+all</td>
+</tr>
+<tr class="row-odd"><td>VTN Manager
+Neutron</td>
+<td>Enables OpenStack Neutron support of
+VTN Manager</td>
+<td>odl-vtn-mana
+ger-neutron</td>
+<td>self+all</td>
+</tr>
+</tbody>
+</table>
+<p>Table: Beryllium Components</p>
+<p>In the table a compatibility value of <strong>all</strong> means that it can be run
+with other features. A value of <strong>self+all</strong> indicates that the feature
+can be installed with other features with a value of <strong>all</strong>, but may
+interact badly other features with a value of <strong>self+all</strong>.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="18%" />
+<col width="49%" />
+<col width="18%" />
+<col width="15%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Component
+Name</th>
+<th class="head">Component Description</th>
+<th class="head">Karaf
+feature name</th>
+<th class="head">Compatibil
+ity</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Persistence</td>
+<td>Enables saving of data to external
+databases</td>
+<td>odl-persiste
+nce-api</td>
+<td>self+all</td>
+</tr>
+<tr class="row-odd"><td>Reservation</td>
+<td>Enables bandwidth calendaring using
+the TL1 protocol</td>
+<td>odl-reservat
+ion-models</td>
+<td>all</td>
+</tr>
+</tbody>
+</table>
+<p>Table: Experimental Beryllium Components</p>
+<div class="section" id="listing-available-features">
+<h4>Listing available features<a class="headerlink" href="#listing-available-features" title="Permalink to this headline">¶</a></h4>
+<p>To find the complete list of Karaf features, run the following command:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">feature</span><span class="p">:</span><span class="nb">list</span>
+</pre></div>
+</div>
+<p>To list the installed Karaf features, run the following command:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">feature</span><span class="p">:</span><span class="nb">list</span> <span class="o">-</span><span class="n">i</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="installing-support-for-rest-apis">
+<h3>Installing support for REST APIs<a class="headerlink" href="#installing-support-for-rest-apis" title="Permalink to this headline">¶</a></h3>
+<p>Most components that offer REST APIs will automatically load the
+RESTCONF API Support component, but if for whatever reason they seem to
+be missing, you can activate this support by installing the
+<code class="docutils literal"><span class="pre">odl-restconf</span></code> feature.</p>
+</div>
+<div class="section" id="installing-md-sal-clustering">
+<h3>Installing MD-SAL clustering<a class="headerlink" href="#installing-md-sal-clustering" title="Permalink to this headline">¶</a></h3>
+<p>The MD-SAL clustering feature has &#8220;special&#8221; compatibility criteria. You
+<strong>must</strong> install clustering, before other features are installed. To
+install clustering, run the following command on the Karaf CLI console:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">feature</span><span class="p">:</span><span class="n">install</span> <span class="n">odl</span><span class="o">-</span><span class="n">mdsal</span><span class="o">-</span><span class="n">clustering</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="opendaylight-overview">
+<h2>OpenDaylight Overview<a class="headerlink" href="#opendaylight-overview" title="Permalink to this headline">¶</a></h2>
+<p>The OpenDaylight project is a collaborative open source project that
+aims to accelerate adoption of Software-Defined Networking (SDN) and
+Network Functions Virtualization (NFV) with a transparent approach that
+fosters new innovation.</p>
+<p>OpenDaylight mainly consists of software designed to be run on top of a
+Java Virtual Machine (JVM) and can be run on any operating system and
+hardware as there is a Java Runtime Environment (JRE) available for it.</p>
+<p>For a more detailed information about OpenDaylight, see the and
+<em>OpenDaylight User Guie</em>, <em>OpenDaylight Developer Guide</em>.</p>
+</div>
+<div class="section" id="using-the-opendaylight-user-interface-dlux">
+<h2>Using the OpenDaylight User Interface (DLUX)<a class="headerlink" href="#using-the-opendaylight-user-interface-dlux" title="Permalink to this headline">¶</a></h2>
+<p>This section introduces you to the OpenDaylight User Experience (DLUX)
+application.</p>
+<div class="section" id="getting-started-with-dlux">
+<h3>Getting Started with DLUX<a class="headerlink" href="#getting-started-with-dlux" title="Permalink to this headline">¶</a></h3>
+<p>DLUX provides a number of different Karaf features, which you can enable
+and disable separately. In Beryllum they are: . odl-dlux-core .
+odl-dlux-node . odl-dlux-yangui . odl-dlux-yangvisualizer</p>
+</div>
+<div class="section" id="logging-in">
+<h3>Logging In<a class="headerlink" href="#logging-in" title="Permalink to this headline">¶</a></h3>
+<p>To log in to DLUX, after installing the application:</p>
+<ol class="arabic">
+<li><p class="first">Open a browser and enter the login URL
+<a href="#id44"><span class="problematic" id="id45">`http://&lt;your-karaf-ip&gt;:8181/index.html &lt;http://&lt;your-karaf-ip&gt;:8181/index.html&gt;`__</span></a>
+in your browser (Chrome is recommended).</p>
+</li>
+<li><p class="first">Login to the application with your username and password credentials.</p>
+<blockquote>
+<div><p><strong>Note</strong></p>
+<p>OpenDaylight’s default credentials are <em>admin</em> for both the username
+and password.</p>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="working-with-dlux">
+<h3>Working with DLUX<a class="headerlink" href="#working-with-dlux" title="Permalink to this headline">¶</a></h3>
+<p>After you login to DLUX, if you enable only odl-dlux-core feature, you
+will see only topology application available in the left pane.</p>
+<blockquote>
+<div><p><strong>Note</strong></p>
+<p>To make sure topology displays all the details, enable the
+odl-l2switch-switch feature in Karaf.</p>
+</div></blockquote>
+<p>DLUX has other applications such as node, yang UI and those apps won’t
+show up, until you enable their features odl-dlux-node and
+odl-dlux-yangui respectively in the Karaf distribution.</p>
+<div class="figure" id="id27">
+<img alt="DLUX Modules" src="../_images/dlux-login.png" />
+<p class="caption"><span class="caption-text">DLUX Modules</span></p>
+<div class="legend">
+<blockquote>
+<div><p><strong>Note</strong></p>
+<p>If you install your application in dlux, they will also show up on
+the left hand navigation after browser page refresh.</p>
+</div></blockquote>
+</div>
+</div>
+</div>
+<div class="section" id="viewing-network-statistics">
+<h3>Viewing Network Statistics<a class="headerlink" href="#viewing-network-statistics" title="Permalink to this headline">¶</a></h3>
+<p>The <strong>Nodes</strong> module on the left pane enables you to view the network
+statistics and port information for the switches in the network.</p>
+<p>To use the <strong>Nodes</strong> module:</p>
+<ol class="arabic simple">
+<li>Select <strong>Nodes</strong> on the left pane. The right pane displays atable
+that lists all the nodes, node connectors and the statistics.</li>
+<li>Enter a node ID in the <strong>Search Nodes</strong> tab to search by node
+connectors.</li>
+<li>Click on the <strong>Node Connector</strong> number to view details such as port
+ID, port name, number of ports per switch, MAC Address, and so on.</li>
+<li>Click <strong>Flows</strong> in the Statistics column to view Flow Table
+Statistics for the particular node like table ID, packet match,
+active flows and so on.</li>
+<li>Click <strong>Node Connectors</strong> to view Node Connector Statistics for the
+particular node ID.</li>
+</ol>
+</div>
+<div class="section" id="viewing-network-topology">
+<h3>Viewing Network Topology<a class="headerlink" href="#viewing-network-topology" title="Permalink to this headline">¶</a></h3>
+<p>The Topology tab displays a graphical representation of network topology
+created.</p>
+<blockquote>
+<div><p><strong>Note</strong></p>
+<p>DLUX does not allow for editing or adding topology information. The
+topology is generated and edited in other modules, e.g., the
+OpenFlow plugin. OpenDaylight stores this information in the MD-SAL
+datastore where DLUX can read and display it.</p>
+</div></blockquote>
+<p>To view network topology:</p>
+<ol class="arabic simple">
+<li>Select <strong>Topology</strong> on the left pane. You will view the graphical
+representation on the right pane. In the diagram blue boxes represent
+the switches, the black represents the hosts available, and lines
+represents how the switches and hosts are connected.</li>
+<li>Hover your mouse on hosts, links, or switches to view source and
+destination ports.</li>
+<li>Zoom in and zoom out using mouse scroll to verify topology for larger
+topologies.</li>
+</ol>
+<div class="figure" id="id28">
+<img alt="Topology Module" src="../_images/dlux-topology.png" />
+<p class="caption"><span class="caption-text">Topology Module</span></p>
+</div>
+</div>
+<div class="section" id="interacting-with-the-yang-based-md-sal-datastore">
+<h3>Interacting with the YANG-based MD-SAL datastore<a class="headerlink" href="#interacting-with-the-yang-based-md-sal-datastore" title="Permalink to this headline">¶</a></h3>
+<p>The <strong>Yang UI</strong> module enables you to interact with the YANG-based
+MD-SAL datastore. For more information about YANG and how it interacts
+with the MD-SAL datastore, see the <em>Controller</em> and <em>YANG Tools</em> section
+of the <em>OpenDaylight Developer Guide</em>.</p>
+<div class="figure" id="id29">
+<img alt="Yang UI" src="../_images/dlux-yang-ui-screen.png" />
+<p class="caption"><span class="caption-text">Yang UI</span></p>
+</div>
+<p>To use Yang UI:</p>
+<ol class="arabic">
+<li><p class="first">Select <strong>Yang UI</strong> on the left pane. The right pane is divided in two
+parts.</p>
+</li>
+<li><p class="first">The top part displays a tree of APIs, subAPIs, and buttons to call
+possible functions (GET, POST, PUT, and DELETE).</p>
+<blockquote>
+<div><p><strong>Note</strong></p>
+<p>Not every subAPI can call every function. For example, subAPIs in
+the <em>operational</em> store have GET functionality only.</p>
+</div></blockquote>
+<p>Inputs can be filled from OpenDaylight when existing data from
+OpenDaylight is displayed or can be filled by user on the page and
+sent to OpenDaylight.</p>
+<p>Buttons under the API tree are variable. It depends on subAPI
+specifications. Common buttons are:</p>
+<ul>
+<li><p class="first">GET to get data from OpenDaylight,</p>
+</li>
+<li><p class="first">PUT and POST for sending data to OpenDaylight for saving</p>
+</li>
+<li><p class="first">DELETE for sending data to OpenDaylight for deleting.</p>
+<p>You must specify the xpath for all these operations. This path is
+displayed in the same row before buttons and it may include text
+inputs for specific path element identifiers.</p>
+<div class="figure" id="id30">
+<img alt="Yang API Specification" src="../_images/dlux-yang-api-specification.png" />
+<p class="caption"><span class="caption-text">Yang API Specification</span></p>
+</div>
+</li>
+</ul>
+</li>
+<li><p class="first">The bottom part of the right pane displays inputs according to the
+chosen subAPI.</p>
+<ul>
+<li><p class="first">Lists are handled as a special case. For example, a device can
+store multiple flows. In this case &#8220;flow&#8221; is name of the list and
+every list element is identified by a unique key value. Elements
+of a list can, in turn, contain other lists.</p>
+</li>
+<li><p class="first">In Yang UI, each list element is rendered with the name of the
+list it belongs to, its key, its value, and a button for removing
+it from the list.</p>
+<div class="figure" id="id31">
+<img alt="Yang UI API Specification" src="../_images/dlux-yang-sub-api-screen.png" />
+<p class="caption"><span class="caption-text">Yang UI API Specification</span></p>
+</div>
+</li>
+</ul>
+</li>
+<li><p class="first">After filling in the relevant inputs, click the <strong>Show Preview</strong>
+button under the API tree to display request that will be sent to
+OpenDaylight. A pane is displayed on the right side with text of
+request when some input is filled.</p>
+</li>
+</ol>
+<div class="section" id="displaying-topology-on-the-yang-ui">
+<h4>Displaying Topology on the <strong>Yang UI</strong><a class="headerlink" href="#displaying-topology-on-the-yang-ui" title="Permalink to this headline">¶</a></h4>
+<p>To display topology:</p>
+<ol class="arabic simple">
+<li>Select subAPI network-topology &lt;topology revision number&gt; == &gt;
+operational == &gt; network-topology.</li>
+<li>Get data from OpenDaylight by clicking on the &#8220;GET&#8221; button.</li>
+<li>Click <strong>Display Topology</strong>.</li>
+</ol>
+<div class="figure" id="id32">
+<img alt="DLUX Yang Topology" src="../_images/dlux-yang-topology.png" />
+<p class="caption"><span class="caption-text">DLUX Yang Topology</span></p>
+</div>
+</div>
+<div class="section" id="configuring-list-elements-on-the-yang-ui">
+<h4>Configuring List Elements on the <strong>Yang UI</strong><a class="headerlink" href="#configuring-list-elements-on-the-yang-ui" title="Permalink to this headline">¶</a></h4>
+<p>Lists in Yang UI are displayed as trees. To expand or collapse a list,
+click the arrow before name of the list. To configure list elements in
+Yang UI:</p>
+<ol class="arabic">
+<li><p class="first">To add a new list element with empty inputs use the plus icon-button
+<strong>+</strong> that is provided after list name.</p>
+</li>
+<li><p class="first">To remove several list elements, use the <strong>X</strong> button that is
+provided after every list element.</p>
+<div class="figure" id="id33">
+<img alt="DLUX List Elements" src="../_images/dlux-yang-list-elements.png" />
+<p class="caption"><span class="caption-text">DLUX List Elements</span></p>
+</div>
+</li>
+<li><p class="first">In the YANG-based data store all elements of a list must have a
+unique key. If you try to assign two or more elements the same key, a
+warning icon <strong>!</strong> is displayed near their name buttons.</p>
+<div class="figure" id="id34">
+<img alt="DLUX List Warnings" src="../_images/dlux-yang-list-warning.png" />
+<p class="caption"><span class="caption-text">DLUX List Warnings</span></p>
+</div>
+</li>
+<li><p class="first">When the list contains at least one list element, after the <strong>+</strong>
+icon, there are buttons to select each individual list element. You
+can choose one of them by clicking on it. In addition, to the right
+of the list name, there is a button which will display a vertically
+scrollable pane with all the list elements.</p>
+<div class="figure" id="id35">
+<img alt="DLUX List Button1" src="../_images/dlux-yang-list-button1.png" />
+<p class="caption"><span class="caption-text">DLUX List Button1</span></p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="section" id="running-xsql-console-commands-and-queries">
+<h2>Running XSQL Console Commands and Queries<a class="headerlink" href="#running-xsql-console-commands-and-queries" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="xsql-overview">
+<h3>XSQL Overview<a class="headerlink" href="#xsql-overview" title="Permalink to this headline">¶</a></h3>
+<p>XSQL is an XML-based query language that describes simple stored
+procedures which parse XML data, query or update database tables, and
+compose XML output. XSQL allows you to query tree models like a
+sequential database. For example, you could run a query that lists all
+of the ports configured on a particular module and their attributes.</p>
+<p>The following sections cover the XSQL installation process, supported
+XSQL commands, and the way to structure queries.</p>
+</div>
+<div class="section" id="installing-xsql">
+<h3>Installing XSQL<a class="headerlink" href="#installing-xsql" title="Permalink to this headline">¶</a></h3>
+<p>To run commands from the XSQL console, you must first install XSQL on
+your system:</p>
+<ol class="arabic">
+<li><p class="first">Navigate to the directory in which you unzipped OpenDaylight</p>
+</li>
+<li><p class="first">Start Karaf:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">./</span><span class="nb">bin</span><span class="o">/</span><span class="n">karaf</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Install XSQL:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">feature</span><span class="p">:</span><span class="n">install</span> <span class="n">odl</span><span class="o">-</span><span class="n">mdsal</span><span class="o">-</span><span class="n">xsql</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="xsql-console-commands">
+<h3>XSQL Console Commands<a class="headerlink" href="#xsql-console-commands" title="Permalink to this headline">¶</a></h3>
+<p>To enter a command in the XSQL console, structure the command as
+follows: <strong>odl:xsql</strong> <em>&lt;XSQL command&gt;</em></p>
+<p>The following table describes the commands supported in this
+OpenDaylight release.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="31%" />
+<col width="69%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>Command</strong></td>
+<td><strong>Description</strong></td>
+</tr>
+<tr class="row-even"><td><strong>r</strong></td>
+<td>Repeats the last command you executed.</td>
+</tr>
+<tr class="row-odd"><td><strong>list vtables</strong></td>
+<td>Lists the schema node containers that are
+currently installed. Whenever an OpenDaylight
+module is installed, its YANG model is placed in
+the schema context. At that point, the XSQL
+receives a notification, confirms that the
+module’s YANG model resides in the schema context
+and then maps the model to XSQL by setting up the
+necessary vtables and vfields. This command is
+useful when you need to determine vtable
+information for a query.</td>
+</tr>
+<tr class="row-even"><td><strong>list vfields</strong>
+<em>&lt;vtable name&gt;</em></td>
+<td>Lists the vfields present in a specific vtable.
+This command is useful when you need to determine
+vfields information for a query.</td>
+</tr>
+<tr class="row-odd"><td><strong>jdbc</strong> <em>&lt;ip
+address&gt;</em></td>
+<td>When the ODL server is behind a firewall, and the
+JDBC client cannot connect to the JDBC server, run
+this command to start the client as a server and
+establish a connection.</td>
+</tr>
+<tr class="row-even"><td><strong>exit</strong></td>
+<td>Closes the console.</td>
+</tr>
+<tr class="row-odd"><td><strong>tocsv</strong></td>
+<td>Enables or disables the forwarding of query output
+as a .csv file.</td>
+</tr>
+<tr class="row-even"><td><strong>filename</strong>
+<em>&lt;filename&gt;</em></td>
+<td>Specifies the .tocsv file to which the query data
+is exported. If you do not specify a value for
+this option when the toccsv option is enabled, the
+filename for the query data file is generated
+automatically.</td>
+</tr>
+</tbody>
+</table>
+<p>Table: Supported XSQL Console Commands</p>
+</div>
+<div class="section" id="xsql-queries">
+<h3>XSQL Queries<a class="headerlink" href="#xsql-queries" title="Permalink to this headline">¶</a></h3>
+<p>You can run a query to extract information that meets the criteria you
+specify using the information provided by the <strong>list vtables</strong> and
+<strong>list vfields</strong> <em>&lt;vtable name&gt;</em> commands. Any query you run should be
+structured as follows:</p>
+<p><strong>select</strong> <em>&lt;vfields you want to search for, separated by a comma and a
+space&gt;</em> <strong>from</strong> <em>&lt;vtables you want to search in, separated by a comma
+and a space&gt;</em> <strong>where</strong> <em>&lt;criteria&gt;</em> <strong>***&lt;criteria operator&gt;**</strong>;*</p>
+<p>For example, if you want to search the nodes/node ID field in the
+nodes/node-connector table and find every instance of the
+Hardware-Address object that contains <em>BA</em> in its text string, enter the
+following query:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">select</span> <span class="n">nodes</span><span class="o">/</span><span class="n">node</span><span class="o">.</span><span class="n">ID</span> <span class="kn">from</span> <span class="nn">nodes</span><span class="o">/</span><span class="n">node</span><span class="o">-</span><span class="n">connector</span> <span class="n">where</span> <span class="n">Hardware</span><span class="o">-</span><span class="n">Address</span> <span class="n">like</span> <span class="s1">&#39;%BA%&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The following criteria operators are supported:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="21%" />
+<col width="79%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>Criteria
+Operators</strong></td>
+<td><strong>Description</strong></td>
+</tr>
+<tr class="row-even"><td><strong>=</strong></td>
+<td>Lists results that equal the value you specify.</td>
+</tr>
+<tr class="row-odd"><td><strong>!=</strong></td>
+<td>Lists results that do not equal the value you specify.</td>
+</tr>
+<tr class="row-even"><td><strong>like</strong></td>
+<td>Lists results that contain the substring you specify. For
+example, if you specify <strong>like %BC%</strong>, every string that
+contains that particular substring is displayed.</td>
+</tr>
+<tr class="row-odd"><td><strong>&lt;</strong></td>
+<td>Lists results that are less than the value you specify.</td>
+</tr>
+<tr class="row-even"><td><strong>&gt;</strong></td>
+<td>Lists results that are more than the value you specify.</td>
+</tr>
+<tr class="row-odd"><td><strong>and</strong></td>
+<td>Lists results that match both values you specify.</td>
+</tr>
+<tr class="row-even"><td><strong>or</strong></td>
+<td>Lists results that match either of the two values you
+specify.</td>
+</tr>
+<tr class="row-odd"><td><strong>&gt;=</strong></td>
+<td>Lists results that are more than or equal to the value
+you specify.</td>
+</tr>
+<tr class="row-even"><td><strong>⇐</strong></td>
+<td>Lists results that are less than or equal to the value
+you specify.</td>
+</tr>
+<tr class="row-odd"><td><strong>is null</strong></td>
+<td>Lists results for which no value is assigned.</td>
+</tr>
+<tr class="row-even"><td><strong>not null</strong></td>
+<td>Lists results for which any value is assigned.</td>
+</tr>
+<tr class="row-odd"><td><strong>skip</strong></td>
+<td>Use this operator to list matching results from a child
+node, even if its parent node does not meet the specified
+criteria. See the following example for more information.</td>
+</tr>
+</tbody>
+</table>
+<p>Table: Supported XSQL Query Criteria Operators</p>
+<div class="section" id="example-skip-criteria-operator">
+<h4>Example: Skip Criteria Operator<a class="headerlink" href="#example-skip-criteria-operator" title="Permalink to this headline">¶</a></h4>
+<p>If you are looking at the following structure and want to determine all
+of the ports that belong to a YY type module:</p>
+<ul class="simple">
+<li>Network Element 1<ul>
+<li>Module 1, Type XX<ul>
+<li>Module 1.1, Type YY<ul>
+<li>Port 1</li>
+<li>Port 2</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Module 2, Type YY<ul>
+<li>Port 1</li>
+<li>Port 2</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>If you specify <strong>Module.Type=*YY*</strong> in your query criteria, the ports
+associated with module 1.1 will not be returned since its parent module
+is type XX. Instead, enter <strong>Module.Type=*YY* or skip
+Module!=*YY*</strong>. This tells XSQL to disregard any parent module data
+that does not meet the type YY criteria and collect results for any
+matching child modules. In this example, you are instructing the query
+to skip module 1 and collect the relevant data from module 1.1.</p>
+</div>
+</div>
+</div>
+<div class="section" id="setting-up-clustering">
+<h2>Setting Up Clustering<a class="headerlink" href="#setting-up-clustering" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="clustering-overview">
+<h3>Clustering Overview<a class="headerlink" href="#clustering-overview" title="Permalink to this headline">¶</a></h3>
+<p>Clustering is a mechanism that enables multiple processes and programs
+to work together as one entity. For example, when you search for
+something on google.com, it may seem like your search request is
+processed by only one web server. In reality, your search request is
+processed by may web servers connected in a cluster. Similarly, you can
+have multiple instances of OpenDaylight working together as one entity.</p>
+<p>Advantages of clustering are:</p>
+<ul class="simple">
+<li>Scaling: If you have multiple instances of OpenDaylight running, you
+can potentially do more work and store more data than you could with
+only one instance. You can also break up your data into smaller
+chunks (shards) and either distribute that data across the cluster or
+perform certain operations on certain members of the cluster.</li>
+<li>High Availability: If you have multiple instances of OpenDaylight
+running and one of them crashes, you will still have the other
+instances working and available.</li>
+<li>Data Persistence: You will not lose any data stored in OpenDaylight
+after a manual restart or a crash.</li>
+</ul>
+<p>The following sections describe how to set up clustering on both
+individual and multiple OpenDaylight instances.</p>
+</div>
+<div class="section" id="single-node-clustering">
+<h3>Single Node Clustering<a class="headerlink" href="#single-node-clustering" title="Permalink to this headline">¶</a></h3>
+<p>To enable clustering on a single instance of OpenDaylight, perform the
+following steps:</p>
+<ol class="arabic">
+<li><p class="first">Download, unzip, and run the OpenDaylight distribution</p>
+</li>
+<li><p class="first">Install the clustering feature:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>   <span class="n">feature</span><span class="p">:</span><span class="n">install</span> <span class="n">odl</span><span class="o">-</span><span class="n">mdsal</span><span class="o">-</span><span class="n">clustering</span>
+
+<span class="o">**</span><span class="n">Note</span><span class="o">**</span>
+
+<span class="n">This</span> <span class="n">will</span> <span class="n">enabled</span> <span class="n">the</span> <span class="n">cluster</span><span class="o">-</span><span class="n">ready</span> <span class="n">version</span> <span class="n">of</span> <span class="n">the</span> <span class="n">MD</span><span class="o">-</span><span class="n">SAL</span> <span class="n">data</span>
+<span class="n">store</span><span class="p">,</span> <span class="n">but</span> <span class="n">will</span> <span class="ow">not</span> <span class="n">actually</span> <span class="n">create</span> <span class="n">a</span> <span class="n">cluster</span> <span class="n">of</span> <span class="n">multiple</span> <span class="n">instances</span><span class="o">.</span>
+<span class="n">The</span> <span class="n">result</span> <span class="ow">is</span> <span class="n">that</span> <span class="n">you</span> <span class="n">will</span> <span class="n">get</span> <span class="n">data</span> <span class="n">persistence</span><span class="p">,</span> <span class="n">but</span> <span class="ow">not</span> <span class="n">the</span>
+<span class="n">scaling</span> <span class="ow">or</span> <span class="n">high</span> <span class="n">availability</span> <span class="n">advantages</span><span class="o">.</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="multiple-node-clustering">
+<h3>Multiple Node Clustering<a class="headerlink" href="#multiple-node-clustering" title="Permalink to this headline">¶</a></h3>
+<p>The following sections describe how to set up multiple node clusters in
+OpenDaylight.</p>
+<div class="section" id="deployment-considerations">
+<h4>Deployment Considerations<a class="headerlink" href="#deployment-considerations" title="Permalink to this headline">¶</a></h4>
+<p>To implement clustering, the deployment considerations are as follows:</p>
+<ul>
+<li><p class="first">To set up a cluster with multiple nodes, we recommend that you use a
+minimum of three machines. You can set up a cluster with just two
+nodes. However, if one of the two nodes fail, the cluster will not be
+operational.</p>
+<blockquote>
+<div><p><strong>Note</strong></p>
+<p>This is because clustering in OpenDaylight requires a majority of
+the nodes to be up and one node cannot be a majority of two
+nodes.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Every device that belongs to a cluster needs to have an identifier.
+OpenDaylight uses the node’s <code class="docutils literal"><span class="pre">role</span></code> for this purpose. After you
+define the first node’s role as <em>member-1</em> in the <code class="docutils literal"><span class="pre">akka.conf</span></code> file,
+OpenDaylight uses <em>member-1</em> to identify that node.</p>
+</li>
+<li><p class="first">Data shards are used to contain all or a certain segment of a
+OpenDaylight’s MD-SAL datastore. For example, one shard can contain
+all the inventory data while another shard contains all of the
+topology data.</p>
+<p>If you do not specify a module in the <code class="docutils literal"><span class="pre">modules.conf</span></code> file and do
+not specify a shard in <code class="docutils literal"><span class="pre">module-shards.conf</span></code>, then (by default) all
+the data is placed in the default shard (which must also be defined
+in <code class="docutils literal"><span class="pre">module-shards.conf</span></code> file). Each shard has replicas configured.
+You can specify the details of where the replicas reside in
+<code class="docutils literal"><span class="pre">module-shards.conf</span></code> file.</p>
+</li>
+<li><p class="first">If you have a three node cluster and would like to be able to
+tolerate any single node crashing, a replica of every defined data
+shard must be running on all three cluster nodes.</p>
+<blockquote>
+<div><p><strong>Note</strong></p>
+<p>This is because OpenDaylight’s clustering implementation requires
+a majority of the defined shard replicas to be running in order
+to function. If you define data shard replicas on two of the
+cluster nodes and one of those nodes goes down, the corresponding
+data shards will not function.</p>
+</div></blockquote>
+</li>
+<li><p class="first">If you have a three node cluster and have defined replicas for a data
+shard on each of those nodes, that shard will still function even if
+only two of the cluster nodes are running. Note that if one of those
+remaining two nodes goes down, the shard will not be operational.</p>
+</li>
+<li><p class="first">It is recommended that you have multiple seed nodes configured. After
+a cluster member is started, it sends a message to all of its seed
+nodes. The cluster member then sends a join command to the first seed
+node that responds. If none of its seed nodes reply, the cluster
+member repeats this process until it successfully establishes a
+connection or it is shut down.</p>
+</li>
+<li><p class="first">After a node is unreachable, it remains down for configurable period
+of time (10 seconds, by default). Once a node goes down, you need to
+restart it so that it can rejoin the cluster. Once a restarted node
+joins a cluster, it will synchronize with the lead node
+automatically.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="setting-up-a-multiple-node-cluster">
+<h4>Setting Up a Multiple Node Cluster<a class="headerlink" href="#setting-up-a-multiple-node-cluster" title="Permalink to this headline">¶</a></h4>
+<p>To run OpenDaylight in a three node cluster, perform the following:</p>
+<p>First, determine the three machines that will make up the cluster. After
+that, do the following on each machine:</p>
+<ol class="arabic">
+<li><p class="first">Copy the OpenDaylight distribution zip file to the machine.</p>
+</li>
+<li><p class="first">Unzip the distribution.</p>
+</li>
+<li><p class="first">Open the following .conf files:</p>
+<ul class="simple">
+<li>configuration/initial/akka.conf</li>
+<li>configuration/initial/module-shards.conf</li>
+</ul>
+</li>
+<li><p class="first">In each configuration file, make the following changes:</p>
+<ol class="loweralpha">
+<li><p class="first">Find every instance of the following lines and replace <em>127.0.0.1</em>
+with the hostname or IP address of the machine on which this file
+resides and OpenDaylight will run:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">netty</span><span class="o">.</span><span class="n">tcp</span> <span class="p">{</span>
+  <span class="n">hostname</span> <span class="o">=</span> <span class="s2">&quot;127.0.0.1&quot;</span>
+
+<span class="o">**</span><span class="n">Note</span><span class="o">**</span>
+
+<span class="n">The</span> <span class="n">value</span> <span class="n">you</span> <span class="n">need</span> <span class="n">to</span> <span class="n">specify</span> <span class="n">will</span> <span class="n">be</span> <span class="n">different</span> <span class="k">for</span> <span class="n">each</span> <span class="n">node</span>
+<span class="ow">in</span> <span class="n">the</span> <span class="n">cluster</span><span class="o">.</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Find the following lines and replace <em>127.0.0.1</em> with the hostname
+or IP address of any of the machines that will be part of the
+cluster:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cluster</span> <span class="p">{</span>
+  <span class="n">seed</span><span class="o">-</span><span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;akka.tcp://opendaylight-cluster-data@127.0.0.1:2550&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Find the following section and specify the role for each member
+node. Here we assign the first node with the <em>member-1</em> role, the
+second node with the <em>member-2</em> role, and the third node with the
+<em>member-3</em> role:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">roles</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="s2">&quot;member-1&quot;</span>
+<span class="p">]</span>
+
+<span class="o">**</span><span class="n">Note</span><span class="o">**</span>
+
+<span class="n">This</span> <span class="n">step</span> <span class="n">should</span> <span class="n">use</span> <span class="n">a</span> <span class="n">different</span> <span class="n">role</span> <span class="n">on</span> <span class="n">each</span> <span class="n">node</span><span class="o">.</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Open the configuration/initial/module-shards.conf file and update
+the replicas so that each shard is replicated to all three nodes:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">replicas</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;member-1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;member-2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;member-3&quot;</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>For reference, view a sample config files
+<a class="reference external" href="#_sample_config_files">below</a>.</p>
+</li>
+</ol>
+</li>
+<li><p class="first">Move into the <code class="docutils literal"><span class="pre">&lt;karaf-distribution-directory&gt;/bin</span></code> directory.</p>
+</li>
+<li><p class="first">Run the following command:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">JAVA_MAX_MEM</span><span class="o">=</span><span class="mi">4</span><span class="n">G</span> <span class="n">JAVA_MAX_PERM_MEM</span><span class="o">=</span><span class="mi">512</span><span class="n">m</span> <span class="o">./</span><span class="n">karaf</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Enable clustering by running the following command at the Karaf
+command line:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">feature</span><span class="p">:</span><span class="n">install</span> <span class="n">odl</span><span class="o">-</span><span class="n">mdsal</span><span class="o">-</span><span class="n">clustering</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>OpenDaylight should now be running in a three node cluster. You can use
+any of the three member nodes to access the data residing in the
+datastore.</p>
+<div class="section" id="sample-config-files">
+<h5>Sample Config Files<a class="headerlink" href="#sample-config-files" title="Permalink to this headline">¶</a></h5>
+<p><strong>Sample ``akka.conf`` file.</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">odl</span><span class="o">-</span><span class="n">cluster</span><span class="o">-</span><span class="n">data</span> <span class="p">{</span>
+  <span class="n">bounded</span><span class="o">-</span><span class="n">mailbox</span> <span class="p">{</span>
+    <span class="n">mailbox</span><span class="o">-</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;org.opendaylight.controller.cluster.common.actor.MeteredBoundedMailbox&quot;</span>
+    <span class="n">mailbox</span><span class="o">-</span><span class="n">capacity</span> <span class="o">=</span> <span class="mi">1000</span>
+    <span class="n">mailbox</span><span class="o">-</span><span class="n">push</span><span class="o">-</span><span class="n">timeout</span><span class="o">-</span><span class="n">time</span> <span class="o">=</span> <span class="mi">100</span><span class="n">ms</span>
+  <span class="p">}</span>
+
+  <span class="n">metric</span><span class="o">-</span><span class="n">capture</span><span class="o">-</span><span class="n">enabled</span> <span class="o">=</span> <span class="n">true</span>
+
+  <span class="n">akka</span> <span class="p">{</span>
+    <span class="n">loglevel</span> <span class="o">=</span> <span class="s2">&quot;DEBUG&quot;</span>
+    <span class="n">loggers</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;akka.event.slf4j.Slf4jLogger&quot;</span><span class="p">]</span>
+
+    <span class="n">actor</span> <span class="p">{</span>
+
+      <span class="n">provider</span> <span class="o">=</span> <span class="s2">&quot;akka.cluster.ClusterActorRefProvider&quot;</span>
+      <span class="n">serializers</span> <span class="p">{</span>
+                <span class="n">java</span> <span class="o">=</span> <span class="s2">&quot;akka.serialization.JavaSerializer&quot;</span>
+                <span class="n">proto</span> <span class="o">=</span> <span class="s2">&quot;akka.remote.serialization.ProtobufSerializer&quot;</span>
+              <span class="p">}</span>
+
+              <span class="n">serialization</span><span class="o">-</span><span class="n">bindings</span> <span class="p">{</span>
+                  <span class="s2">&quot;com.google.protobuf.Message&quot;</span> <span class="o">=</span> <span class="n">proto</span>
+
+              <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">remote</span> <span class="p">{</span>
+      <span class="n">log</span><span class="o">-</span><span class="n">remote</span><span class="o">-</span><span class="n">lifecycle</span><span class="o">-</span><span class="n">events</span> <span class="o">=</span> <span class="n">off</span>
+      <span class="n">netty</span><span class="o">.</span><span class="n">tcp</span> <span class="p">{</span>
+        <span class="n">hostname</span> <span class="o">=</span> <span class="s2">&quot;10.194.189.96&quot;</span>
+        <span class="n">port</span> <span class="o">=</span> <span class="mi">2550</span>
+        <span class="n">maximum</span><span class="o">-</span><span class="n">frame</span><span class="o">-</span><span class="n">size</span> <span class="o">=</span> <span class="mi">419430400</span>
+        <span class="n">send</span><span class="o">-</span><span class="n">buffer</span><span class="o">-</span><span class="n">size</span> <span class="o">=</span> <span class="mi">52428800</span>
+        <span class="n">receive</span><span class="o">-</span><span class="n">buffer</span><span class="o">-</span><span class="n">size</span> <span class="o">=</span> <span class="mi">52428800</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">cluster</span> <span class="p">{</span>
+      <span class="n">seed</span><span class="o">-</span><span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;akka.tcp://opendaylight-cluster-data@10.194.189.96:2550&quot;</span><span class="p">]</span>
+
+      <span class="n">auto</span><span class="o">-</span><span class="n">down</span><span class="o">-</span><span class="n">unreachable</span><span class="o">-</span><span class="n">after</span> <span class="o">=</span> <span class="mi">10</span><span class="n">s</span>
+
+      <span class="n">roles</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;member-1&quot;</span>
+      <span class="p">]</span>
+
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">odl</span><span class="o">-</span><span class="n">cluster</span><span class="o">-</span><span class="n">rpc</span> <span class="p">{</span>
+  <span class="n">bounded</span><span class="o">-</span><span class="n">mailbox</span> <span class="p">{</span>
+    <span class="n">mailbox</span><span class="o">-</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;org.opendaylight.controller.cluster.common.actor.MeteredBoundedMailbox&quot;</span>
+    <span class="n">mailbox</span><span class="o">-</span><span class="n">capacity</span> <span class="o">=</span> <span class="mi">1000</span>
+    <span class="n">mailbox</span><span class="o">-</span><span class="n">push</span><span class="o">-</span><span class="n">timeout</span><span class="o">-</span><span class="n">time</span> <span class="o">=</span> <span class="mi">100</span><span class="n">ms</span>
+  <span class="p">}</span>
+
+  <span class="n">metric</span><span class="o">-</span><span class="n">capture</span><span class="o">-</span><span class="n">enabled</span> <span class="o">=</span> <span class="n">true</span>
+
+  <span class="n">akka</span> <span class="p">{</span>
+    <span class="n">loglevel</span> <span class="o">=</span> <span class="s2">&quot;INFO&quot;</span>
+    <span class="n">loggers</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;akka.event.slf4j.Slf4jLogger&quot;</span><span class="p">]</span>
+
+    <span class="n">actor</span> <span class="p">{</span>
+      <span class="n">provider</span> <span class="o">=</span> <span class="s2">&quot;akka.cluster.ClusterActorRefProvider&quot;</span>
+
+    <span class="p">}</span>
+    <span class="n">remote</span> <span class="p">{</span>
+      <span class="n">log</span><span class="o">-</span><span class="n">remote</span><span class="o">-</span><span class="n">lifecycle</span><span class="o">-</span><span class="n">events</span> <span class="o">=</span> <span class="n">off</span>
+      <span class="n">netty</span><span class="o">.</span><span class="n">tcp</span> <span class="p">{</span>
+        <span class="n">hostname</span> <span class="o">=</span> <span class="s2">&quot;10.194.189.96&quot;</span>
+        <span class="n">port</span> <span class="o">=</span> <span class="mi">2551</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">cluster</span> <span class="p">{</span>
+      <span class="n">seed</span><span class="o">-</span><span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;akka.tcp://opendaylight-cluster-rpc@10.194.189.96:2551&quot;</span><span class="p">]</span>
+
+      <span class="n">auto</span><span class="o">-</span><span class="n">down</span><span class="o">-</span><span class="n">unreachable</span><span class="o">-</span><span class="n">after</span> <span class="o">=</span> <span class="mi">10</span><span class="n">s</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Sample ``module-shards.conf`` file.</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">module</span><span class="o">-</span><span class="n">shards</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span>
+        <span class="n">shards</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;default&quot;</span>
+                <span class="n">replicas</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="s2">&quot;member-1&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;member-2&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;member-3&quot;</span>
+                <span class="p">]</span>
+            <span class="p">}</span>
+        <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;topology&quot;</span>
+        <span class="n">shards</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;topology&quot;</span>
+                <span class="n">replicas</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="s2">&quot;member-1&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;member-2&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;member-3&quot;</span>
+                <span class="p">]</span>
+            <span class="p">}</span>
+        <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;inventory&quot;</span>
+        <span class="n">shards</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;inventory&quot;</span>
+                <span class="n">replicas</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="s2">&quot;member-1&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;member-2&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;member-3&quot;</span>
+                <span class="p">]</span>
+            <span class="p">}</span>
+        <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+         <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;toaster&quot;</span>
+         <span class="n">shards</span> <span class="o">=</span> <span class="p">[</span>
+             <span class="p">{</span>
+                 <span class="n">name</span><span class="o">=</span><span class="s2">&quot;toaster&quot;</span>
+                 <span class="n">replicas</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="s2">&quot;member-1&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;member-2&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;member-3&quot;</span>
+                 <span class="p">]</span>
+             <span class="p">}</span>
+         <span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="security-considerations">
+<h2>Security Considerations<a class="headerlink" href="#security-considerations" title="Permalink to this headline">¶</a></h2>
+<p>This document discusses the various security issues that might affect
+OpenDaylight. The document also lists specific recommendations to
+mitigate security risks.</p>
+<p>This document also contains information about the corrective steps you
+can take if you discover a security issue with OpenDaylight, and if
+necessary, contact the Security Response Team, which is tasked with
+identifying and resolving security threats.</p>
+<div class="section" id="overview-of-opendaylight-security">
+<h3>Overview of OpenDaylight Security<a class="headerlink" href="#overview-of-opendaylight-security" title="Permalink to this headline">¶</a></h3>
+<p>There are many different kinds of security vulnerabilities that could
+affect an OpenDaylight deployment, but this guide focuses on those where
+(a) the servers, virtual machines or other devices running OpenDaylight
+have been properly physically (or virtually in the case of VMs) secured
+against untrusted individuals and (b) individuals who have access,
+either via remote logins or physically, will not attempt to attack or
+subvert the deployment intentionally or otherwise.</p>
+<p>While those attack vectors are real, they are out of the scope of this
+document.</p>
+<p>What remains in scope is attacks launched from a server, virtual
+machine, or device other than the one running OpenDaylight where the
+attack does not have valid credentials to access the OpenDaylight
+deployment.</p>
+<p>The rest of this document gives specific recommendations for deploying
+OpenDaylight in a secure manner, but first we highlight some high-level
+security advantages of OpenDaylight.</p>
+<ul>
+<li><p class="first">Separating the control and management planes from the data plane
+(both logically and, in many cases, physically) allows possible
+security threats to be forced into a smaller attack surface.</p>
+</li>
+<li><p class="first">Having centralized information and network control gives network
+administrators more visibility and control over the entire network,
+enabling them to make better decisions faster. At the same time,
+centralization of network control can be an advantage only if access
+to that control is secure.</p>
+<blockquote>
+<div><p><strong>Note</strong></p>
+<p>While both previous advantages improve security, they also make
+an OpenDaylight deployment an attractive target for attack making
+understanding these security considerations even more important.</p>
+</div></blockquote>
+</li>
+<li><p class="first">The ability to more rapidly evolve southbound protocols and how they
+are used provides more and faster mechanisms to enact appropriate
+security mitigations and remediations.</p>
+</li>
+<li><p class="first">OpenDaylight is built from OSGi bundles and the Karaf Java container.
+Both Karaf and OSGi provide some level of isolation with explicit
+code boundaries, package imports, package exports, and other
+security-related features.</p>
+</li>
+<li><p class="first">OpenDaylight has a history of rapidly addressing known
+vulnerabilities and a well-defined process for reporting and dealing
+with them.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="opendaylight-security-resources">
+<h3>OpenDaylight Security Resources<a class="headerlink" href="#opendaylight-security-resources" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>If you have any security issues, you can send a mail to
+<strong>security&#64;lists.opendaylight.org</strong>.</li>
+<li>For the list of current OpenDaylight security issues that are either
+being fixed or resolved, refer to
+<a class="reference external" href="https://wiki.opendaylight.org/view/Security_Advisories">https://wiki.opendaylight.org/view/Security_Advisories</a>.</li>
+<li>To learn more about the OpenDaylight security issues policies and
+procedure, refer to <a class="reference external" href="https://wiki.opendaylight.org/view/Security:Main">https://wiki.opendaylight.org/view/Security:Main</a></li>
+</ul>
+</div>
+<div class="section" id="deployment-recommendations">
+<h3>Deployment Recommendations<a class="headerlink" href="#deployment-recommendations" title="Permalink to this headline">¶</a></h3>
+<p>We recommend that you follow the deployment guidelines in setting up
+OpenDaylight to minimize security threats.</p>
+<ul>
+<li><p class="first">The default credentials should be changed before deploying
+OpenDaylight.</p>
+</li>
+<li><p class="first">OpenDaylight should be deployed in a private network that cannot be
+accessed from the internet.</p>
+</li>
+<li><p class="first">Separate the data network (that connects devices using the network)
+from the management network (that connects the network devices to
+OpenDaylight).</p>
+<blockquote>
+<div><p><strong>Note</strong></p>
+<p>Deploying OpenDaylight on a separate, private management network
+does not eliminate threats, but only mitigates them. By
+construction, some messages must flow from the data network to
+the management network, e.g., OpenFlow <code class="docutils literal"><span class="pre">packet_in</span></code> messages,
+and these create an attack surface even if it is a small one.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Implement an authentication policy for devices that connect to both
+the data and management network. These are the devices which bridge,
+likely untrusted, traffic from the data network to the management
+network.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="securing-osgi-bundles">
+<h3>Securing OSGi bundles<a class="headerlink" href="#securing-osgi-bundles" title="Permalink to this headline">¶</a></h3>
+<p>OSGi is a Java-specific framework that improves the way that Java
+classes interact within a single JVM. It provides an enhanced version of
+the <strong>java.lang.SecurityManager</strong> (ConditionalPermissionAdmin) in terms
+of security.</p>
+<p>Java provides a security framework that allows a security policy to
+grant permissions, such as reading a file or opening a network
+connection, to specific code. The code maybe classes from the jarfile
+loaded from a specific URL, or a class signed by a specific key. OSGi
+builds on the standard Java security model to add the following
+features:</p>
+<ul class="simple">
+<li>A set of OSGi-specific permission types, such as one that grants the
+right to register an OSGi service or get an OSGi service from the
+service registry.</li>
+<li>The ability to dynamically modify permissions at runtime. This
+includes the ability to specify permissions by using code rather than
+a text configuration file.</li>
+<li>A flexible predicate-based approach to determining which rules are
+applicable to which <strong>ProtectionDomain</strong>. This approach is much more
+powerful than the standard Java security policy which can only grant
+rights based on a jarfile URL or class signature. A few standard
+predicates are provided, including selecting rules based upon bundle
+symbolic-name.</li>
+<li>Support for bundle <strong>local permissions</strong> policies with optional
+further constraints such as <strong>DENY</strong> operations. Most of this
+functionality is accessed by using the <strong>OSGi
+ConditionalPermissionAdmin</strong> service which is part of the OSGi core
+and can be obtained from the OSGi service registry. The
+<code class="docutils literal"><span class="pre">ConditionalPermissionAdmin</span></code> API replaces the earlier
+<strong>PermissionAdmin</strong> API.</li>
+</ul>
+<p>For more information, refer to <a class="reference external" href="http://www.osgi.org/Main/HomePage">http://www.osgi.org/Main/HomePage</a>.</p>
+</div>
+<div class="section" id="securing-the-karaf-container">
+<h3>Securing the Karaf container<a class="headerlink" href="#securing-the-karaf-container" title="Permalink to this headline">¶</a></h3>
+<p>Apache Karaf is a OSGi-based runtime platform which provides a
+lightweight container for OpenDaylight and applications. Apache Karaf
+uses either Apache Felix Framework or Eclipse Equinox OSGi frameworks,
+and provide additional features on top of the framework.</p>
+<p>Apache Karaf provides a security framework based on Java Authentication
+and Authorization Service (JAAS) in compliance with OSGi
+recommendations, while providing RBAC (Role-Based Access Control)
+mechanism for the console and Java Management Extensions (JMX).</p>
+<p>The Apache Karaf security framework is used internally to control the
+access to the following components:</p>
+<ul class="simple">
+<li>OSGi services</li>
+<li>console commands</li>
+<li>JMX layer</li>
+<li>WebConsole</li>
+</ul>
+<p>The remote management capabilities are present in Apache Karaf by
+default, however they can be disabled by using various configuration
+alterations. These configuration options may be applied to the
+OpenDaylight Karaf distribution.</p>
+<blockquote>
+<div><p><strong>Note</strong></p>
+<p>Refer to the following list of publications for more information on
+implementing security for the Karaf container.</p>
+</div></blockquote>
+<ul class="simple">
+<li>For role-based JMX administration, refer to
+<a class="reference external" href="http://karaf.apache.org/manual/latest/users-guide/monitoring.html">http://karaf.apache.org/manual/latest/users-guide/monitoring.html</a>.</li>
+<li>For remote SSH access configuration, refer to
+<a class="reference external" href="http://karaf.apache.org/manual/latest/users-guide/remote.html">http://karaf.apache.org/manual/latest/users-guide/remote.html</a>.</li>
+<li>For WebConsole access, refer to
+<a class="reference external" href="http://karaf.apache.org/manual/latest/users-guide/webconsole.html">http://karaf.apache.org/manual/latest/users-guide/webconsole.html</a>.</li>
+<li>For Karaf security features, refer to
+<a class="reference external" href="http://karaf.apache.org/manual/latest/developers-guide/security-framework.html">http://karaf.apache.org/manual/latest/developers-guide/security-framework.html</a>.</li>
+</ul>
+<div class="section" id="disabling-the-remote-shutdown-port">
+<h4>Disabling the remote shutdown port<a class="headerlink" href="#disabling-the-remote-shutdown-port" title="Permalink to this headline">¶</a></h4>
+<p>You can lock down your deployment post installation. Set
+karaf.shutdown.port=-1 in
+<code class="docutils literal"><span class="pre">etc/custom.properties</span> <span class="pre">or</span> <span class="pre">etc/config.properties</span></code> to disable the remote
+shutdown port.</p>
+</div>
+</div>
+<div class="section" id="securing-southbound-plugins">
+<h3>Securing Southbound Plugins<a class="headerlink" href="#securing-southbound-plugins" title="Permalink to this headline">¶</a></h3>
+<p>Many individual southbound plugins provide mechanisms to secure their
+communication with network devices. For example, the OpenFlow plugin
+supports TLS connections with bi-directional authentication and the
+NETCONF plugin supports connecting over SSH. Meanwhile, the Unified
+Secure Channel plugin provides a way to form secure, remote connections
+for supported devices.</p>
+<p>When deploying OpenDaylight, you should carefully investigate the secure
+mechanisms to connect to devices using the relevant plugins.</p>
+</div>
+<div class="section" id="securing-opendaylight-using-aaa">
+<h3>Securing OpenDaylight using AAA<a class="headerlink" href="#securing-opendaylight-using-aaa" title="Permalink to this headline">¶</a></h3>
+<p>AAA stands for Authentication, Authorization, and Accounting. All three
+of can help improve the security posture of and OpenDaylight deployment.
+In this release, only authentication is fully supported, while
+authorization is an experimental feature and accounting remains a work
+in progress.</p>
+<p>The vast majority of OpenDaylight’s northbound APIs (and all RESTCONF
+APIs) are protected by AAA by default when installing the
+<code class="docutils literal"><span class="pre">odl-restconf</span></code> feature. In the cases that APIs are <strong>not</strong> protected
+by AAA, this will be noted in the per-project release notes.</p>
+<p>By default, OpenDaylight has only one user account with the username and
+password <em>admin</em>. This should be changed before deploying OpenDaylight.</p>
+</div>
+<div class="section" id="security-considerations-for-clustering">
+<h3>Security Considerations for Clustering<a class="headerlink" href="#security-considerations-for-clustering" title="Permalink to this headline">¶</a></h3>
+<p>While OpenDaylight clustering provides many benefits including high
+availability, scale-out performance, and data durability, it also opens
+a new attack surface in the form of the messages exchanged between the
+various instances of OpenDaylight in the cluster. In the current
+OpenDaylight release, these messages are neither encrypted nor
+authenticated meaning that anyone with access to the management network
+where OpenDaylight exchanges these clustering messages can forge and/or
+read the messages. This means that if clustering is enabled, it is even
+more important that the management network be kept secure from any
+untrusted entities.</p>
+</div>
+</div>
+<div class="section" id="opflex-agent-ovs-install-guide">
+<h2>OpFlex agent-ovs Install Guide<a class="headerlink" href="#opflex-agent-ovs-install-guide" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="required-packages">
+<h3>Required Packages<a class="headerlink" href="#required-packages" title="Permalink to this headline">¶</a></h3>
+<p>You’ll need to install the following packages and their dependencies:</p>
+<ul class="simple">
+<li>libuv</li>
+<li>openvswitch-gbp</li>
+<li>openvswitch-gbp-lib</li>
+<li>openvswitch-gbp-kmod</li>
+<li>libopflex</li>
+<li>libmodelgbp</li>
+<li>agent-ovs</li>
+</ul>
+<p>Packages are available for Red Hat Enterprise Linux 7 and Ubuntu 14.04
+LTS. Some of the examples below are specific to RHEL7 but you can run
+the equivalent commands for upstart instead of systemd.</p>
+<p>Note that many of these steps may be performed automatically if you’re
+deploying this along with a larger orchestration system.</p>
+</div>
+<div class="section" id="host-networking-configuration">
+<h3>Host Networking Configuration<a class="headerlink" href="#host-networking-configuration" title="Permalink to this headline">¶</a></h3>
+<p>You’ll need to set up your VM host uplink interface. You should ensure
+that the MTU of the underlying network is sufficient to handle tunneled
+traffic. We will use an example of setting up <strong>eth0</strong> as your uplink
+interface with a vlan of 4093 used for the networking control
+infrastructure and tunnel data plane.</p>
+<p>We just need to set the MTU and disable IPv4 and IPv6 autoconfiguration.
+The MTU needs to be large enough to allow both the VXLAN header and VLAN
+tags to pass through without fragmenting for best performance. We’ll use
+1600 bytes which should be sufficient assuming you are using a default
+1500 byte MTU on your virtual machine traffic. If you already have any
+NetworkManager connections configured for your uplink interface find the
+connection name and proceed to the next step. Otherwise, create a
+connection with (be sure to update the variable UPLINK_IFACE as
+needed):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>UPLINK_IFACE=eth0
+nmcli c add type ethernet ifname $UPLINK_IFACE
+</pre></div>
+</div>
+<p>Now, configure your interface as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">CONNECTION_NAME</span><span class="o">=</span><span class="s2">&quot;ethernet-$UPLINK_IFACE&quot;</span>
+<span class="n">nmcli</span> <span class="n">connection</span> <span class="n">mod</span> <span class="s2">&quot;$CONNECTION_NAME&quot;</span> <span class="n">connection</span><span class="o">.</span><span class="n">autoconnect</span> <span class="n">yes</span> \
+    <span class="n">ipv4</span><span class="o">.</span><span class="n">method</span> <span class="n">link</span><span class="o">-</span><span class="n">local</span> \
+    <span class="n">ipv6</span><span class="o">.</span><span class="n">method</span> <span class="n">ignore</span> \
+    <span class="mi">802</span><span class="o">-</span><span class="mi">3</span><span class="o">-</span><span class="n">ethernet</span><span class="o">.</span><span class="n">mtu</span> <span class="mi">9000</span> \
+    <span class="n">ipv4</span><span class="o">.</span><span class="n">routes</span> <span class="s1">&#39;224.0.0.0/4 0.0.0.0 2000&#39;</span>
+</pre></div>
+</div>
+<p>Then bring up the interface with</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">nmcli</span> <span class="n">connection</span> <span class="n">up</span> <span class="s2">&quot;$CONNECTION_NAME&quot;</span>
+</pre></div>
+</div>
+<p>Next, create the infrastructure interface using the infrastructure VLAN
+(4093 by default). We’ll need to create a vlan subinterface of your
+uplink interface, the configure DHCP on that interface. Run the
+following commands. Be sure to replace the variable values if needed. If
+you’re not using NIC teaming, replace the variable team0 below</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>UPLINK_IFACE=team0
+INFRA_VLAN=4093
+nmcli connection add type vlan ifname $UPLINK_IFACE.$INFRA_VLAN dev $UPLINK_IFACE id $INFRA_VLAN
+nmcli connection mod vlan-$UPLINK_IFACE.$INFRA_VLAN \
+    ethernet.mtu 1600 ipv4.routes &#39;224.0.0.0/4 0.0.0.0 1000&#39;
+sed &quot;s/CLIENT_ID/01:$(ip link show $UPLINK_IFACE | awk &#39;/ether/ {print $2}&#39;)/&quot; \
+    &gt; /etc/dhcp/dhclient-$UPLINK_IFACE.$INFRA_VLAN.conf &lt;&lt;EOF
+send dhcp-client-identifier CLIENT_ID;
+request subnet-mask, domain-name, domain-name-servers, host-name;
+EOF
+</pre></div>
+</div>
+<p>Now bring up the new interface with:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>nmcli connection up vlan-$UPLINK_IFACE.$INFRA_VLAN
+</pre></div>
+</div>
+<p>If you were successful, you should be able to see an IP address when you
+run:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>ip addr show dev $UPLINK_IFACE.$INFRA_VLAN
+</pre></div>
+</div>
+</div>
+<div class="section" id="ovs-bridge-configuration">
+<h3>OVS Bridge Configuration<a class="headerlink" href="#ovs-bridge-configuration" title="Permalink to this headline">¶</a></h3>
+<p>We’ll need to configure an OVS bridge which will handle the traffic for
+any virtual machines or containers that are hosted on the VM host.
+First, enable the openvswitch service and start it:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># systemctl enable openvswitch</span>
+<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="s1">&#39;/usr/lib/systemd/system/openvswitch.service&#39;</span> <span class="s1">&#39;/etc/systemd/system/multi-user.target.wants/openvswitch.service&#39;</span>
+<span class="c1"># systemctl start openvswitch</span>
+<span class="c1"># systemctl status openvswitch</span>
+<span class="n">openvswitch</span><span class="o">.</span><span class="n">service</span> <span class="o">-</span> <span class="n">Open</span> <span class="n">vSwitch</span>
+   <span class="n">Loaded</span><span class="p">:</span> <span class="n">loaded</span> <span class="p">(</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">systemd</span><span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">openvswitch</span><span class="o">.</span><span class="n">service</span><span class="p">;</span> <span class="n">enabled</span><span class="p">)</span>
+   <span class="n">Active</span><span class="p">:</span> <span class="n">active</span> <span class="p">(</span><span class="n">exited</span><span class="p">)</span> <span class="n">since</span> <span class="n">Fri</span> <span class="mi">2014</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">12</span> <span class="mi">17</span><span class="p">:</span><span class="mi">20</span><span class="p">:</span><span class="mi">13</span> <span class="n">PST</span><span class="p">;</span> <span class="mi">3</span><span class="n">s</span> <span class="n">ago</span>
+  <span class="n">Process</span><span class="p">:</span> <span class="mi">3053</span> <span class="n">ExecStart</span><span class="o">=/</span><span class="nb">bin</span><span class="o">/</span><span class="n">true</span> <span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">exited</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="mi">0</span><span class="o">/</span><span class="n">SUCCESS</span><span class="p">)</span>
+ <span class="n">Main</span> <span class="n">PID</span><span class="p">:</span> <span class="mi">3053</span> <span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">exited</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="mi">0</span><span class="o">/</span><span class="n">SUCCESS</span><span class="p">)</span>
+<span class="n">Dec</span> <span class="mi">12</span> <span class="mi">17</span><span class="p">:</span><span class="mi">20</span><span class="p">:</span><span class="mi">13</span> <span class="n">ovs</span><span class="o">-</span><span class="n">server</span><span class="o">.</span><span class="n">cisco</span><span class="o">.</span><span class="n">com</span> <span class="n">systemd</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="n">Started</span> <span class="n">Open</span> <span class="n">vSwitch</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>Next, we can create an OVS bridge (you may wish to use a different
+bridge name):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># ovs-vsctl add-br br0</span>
+<span class="c1"># ovs-vsctl show</span>
+<span class="mi">34</span><span class="n">aa83d7</span><span class="o">-</span><span class="n">b918</span><span class="o">-</span><span class="mi">4</span><span class="n">e49</span><span class="o">-</span><span class="n">bcec</span><span class="o">-</span><span class="mi">1</span><span class="n">b521acd1962</span>
+    <span class="n">Bridge</span> <span class="s2">&quot;br0&quot;</span>
+        <span class="n">Port</span> <span class="s2">&quot;br0&quot;</span>
+            <span class="n">Interface</span> <span class="s2">&quot;br0&quot;</span>
+                <span class="nb">type</span><span class="p">:</span> <span class="n">internal</span>
+    <span class="n">ovs_version</span><span class="p">:</span> <span class="s2">&quot;2.3.90&quot;</span>
+</pre></div>
+</div>
+<p>Next, we configure a tunnel interface on our new bridge as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># ovs-vsctl add-port br0 br0_vxlan0 -- \</span>
+    <span class="nb">set</span> <span class="n">Interface</span> <span class="n">br0_vxlan0</span> <span class="nb">type</span><span class="o">=</span><span class="n">vxlan</span> \
+    <span class="n">options</span><span class="p">:</span><span class="n">remote_ip</span><span class="o">=</span><span class="n">flow</span> <span class="n">options</span><span class="p">:</span><span class="n">key</span><span class="o">=</span><span class="n">flow</span> <span class="n">options</span><span class="p">:</span><span class="n">dst_port</span><span class="o">=</span><span class="mi">8472</span>
+<span class="c1"># ovs-vsctl show</span>
+<span class="mi">34</span><span class="n">aa83d7</span><span class="o">-</span><span class="n">b918</span><span class="o">-</span><span class="mi">4</span><span class="n">e49</span><span class="o">-</span><span class="n">bcec</span><span class="o">-</span><span class="mi">1</span><span class="n">b521acd1962</span>
+    <span class="n">Bridge</span> <span class="s2">&quot;br0&quot;</span>
+        <span class="n">Port</span> <span class="s2">&quot;br0_vxlan0&quot;</span>
+            <span class="n">Interface</span> <span class="s2">&quot;br0_vxlan0&quot;</span>
+                <span class="nb">type</span><span class="p">:</span> <span class="n">vxlan</span>
+                <span class="n">options</span><span class="p">:</span> <span class="p">{</span><span class="n">dst_port</span><span class="o">=</span><span class="s2">&quot;8472&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">flow</span><span class="p">,</span> <span class="n">remote_ip</span><span class="o">=</span><span class="n">flow</span><span class="p">}</span>
+        <span class="n">Port</span> <span class="s2">&quot;br0&quot;</span>
+            <span class="n">Interface</span> <span class="s2">&quot;br0&quot;</span>
+                <span class="nb">type</span><span class="p">:</span> <span class="n">internal</span>
+    <span class="n">ovs_version</span><span class="p">:</span> <span class="s2">&quot;2.3.90&quot;</span>
+</pre></div>
+</div>
+<p>Open vSwitch is now configured and ready.</p>
+</div>
+<div class="section" id="agent-configuration">
+<h3>Agent Configuration<a class="headerlink" href="#agent-configuration" title="Permalink to this headline">¶</a></h3>
+<p>Before enabling the agent, we’ll need to edit its configuration file,
+which is located at &#8220;/etc/opflex-agent-ovs/opflex-agent-ovs.conf&#8221;.</p>
+<p>First, we’ll configure the Opflex protocol parameters. If you’re using
+an ACI fabric, you’ll need the OpFlex domain from the ACI configuration,
+which is the name of the VMM domain you mapped to the interface for this
+hypervisor. Set the &#8220;domain&#8221; field to this value. Next, set the &#8220;name&#8221;
+field to a hostname or other unique identifier for the VM host. Finally,
+set the &#8220;peers&#8221; list to contain the fixed static anycast peer address of
+10.0.0.30 and port 8009. Here is an example of a completed section (bold
+text shows areas you’ll need to modify):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="s2">&quot;opflex&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="o">//</span> <span class="n">The</span> <span class="n">globally</span> <span class="n">unique</span> <span class="n">policy</span> <span class="n">domain</span> <span class="k">for</span> <span class="n">this</span> <span class="n">agent</span><span class="o">.</span>
+    <span class="s2">&quot;domain&quot;</span><span class="p">:</span> <span class="s2">&quot;[CHANGE ME]&quot;</span><span class="p">,</span>
+
+    <span class="o">//</span> <span class="n">The</span> <span class="n">unique</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">policy</span> <span class="n">domain</span> <span class="k">for</span> <span class="n">this</span> <span class="n">agent</span><span class="o">.</span>
+    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;[CHANGE ME]&quot;</span><span class="p">,</span>
+
+    <span class="o">//</span> <span class="n">a</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">peers</span> <span class="n">to</span> <span class="n">connect</span> <span class="n">to</span><span class="p">,</span> <span class="n">by</span> <span class="n">hostname</span> <span class="ow">and</span> <span class="n">port</span><span class="o">.</span>  <span class="n">One</span>
+    <span class="o">//</span> <span class="n">peer</span><span class="p">,</span> <span class="ow">or</span> <span class="n">an</span> <span class="n">anycast</span> <span class="n">pseudo</span><span class="o">-</span><span class="n">peer</span><span class="p">,</span> <span class="ow">is</span> <span class="n">sufficient</span> <span class="n">to</span> <span class="n">bootstrap</span>
+    <span class="o">//</span> <span class="n">the</span> <span class="n">connection</span> <span class="n">without</span> <span class="n">needing</span> <span class="n">an</span> <span class="n">exhaustive</span> <span class="nb">list</span> <span class="n">of</span> <span class="nb">all</span>
+    <span class="o">//</span> <span class="n">peers</span><span class="o">.</span>
+    <span class="s2">&quot;peers&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span><span class="s2">&quot;hostname&quot;</span><span class="p">:</span> <span class="s2">&quot;10.0.0.30&quot;</span><span class="p">,</span> <span class="s2">&quot;port&quot;</span><span class="p">:</span> <span class="mi">8009</span><span class="p">}</span>
+    <span class="p">],</span>
+
+    <span class="s2">&quot;ssl&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="o">//</span> <span class="n">SSL</span> <span class="n">mode</span><span class="o">.</span>  <span class="n">Possible</span> <span class="n">values</span><span class="p">:</span>
+        <span class="o">//</span> <span class="n">disabled</span><span class="p">:</span> <span class="n">communicate</span> <span class="n">without</span> <span class="n">encryption</span>
+        <span class="o">//</span> <span class="n">encrypted</span><span class="p">:</span> <span class="n">encrypt</span> <span class="n">but</span> <span class="n">do</span> <span class="ow">not</span> <span class="n">verify</span> <span class="n">peers</span>
+        <span class="o">//</span> <span class="n">secure</span><span class="p">:</span> <span class="n">encrypt</span> <span class="ow">and</span> <span class="n">verify</span> <span class="n">peer</span> <span class="n">certificates</span>
+        <span class="s2">&quot;mode&quot;</span><span class="p">:</span> <span class="s2">&quot;encrypted&quot;</span><span class="p">,</span>
+
+        <span class="o">//</span> <span class="n">The</span> <span class="n">path</span> <span class="n">to</span> <span class="n">a</span> <span class="n">directory</span> <span class="n">containing</span> <span class="n">trusted</span> <span class="n">certificate</span>
+        <span class="o">//</span> <span class="n">authority</span> <span class="n">public</span> <span class="n">certificates</span><span class="p">,</span> <span class="ow">or</span> <span class="n">a</span> <span class="n">file</span> <span class="n">containing</span> <span class="n">a</span>
+        <span class="o">//</span> <span class="n">specific</span> <span class="n">CA</span> <span class="n">certificate</span><span class="o">.</span>
+        <span class="s2">&quot;ca-store&quot;</span><span class="p">:</span> <span class="s2">&quot;/etc/ssl/certs/&quot;</span>
+    <span class="p">}</span>
+<span class="p">},</span>
+</pre></div>
+</div>
+<p>Next, configure the appropriate policy renderer for the ACI fabric.
+You’ll want to use a stitched-mode renderer. You’ll need to configure
+the bridge name and the uplink interface name. The remote anycast IP
+address will need to be obtained from the ACI configuration console, but
+unless the configuration is unusual, it will be 10.0.0.32.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Renderers</span> <span class="n">enforce</span> <span class="n">policy</span> <span class="n">obtained</span> <span class="n">via</span> <span class="n">OpFlex</span><span class="o">.</span>
+<span class="s2">&quot;renderers&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="o">//</span> <span class="n">Stitched</span><span class="o">-</span><span class="n">mode</span> <span class="n">renderer</span> <span class="k">for</span> <span class="n">interoperating</span> <span class="k">with</span> <span class="n">a</span>
+    <span class="o">//</span> <span class="n">hardware</span> <span class="n">fabric</span> <span class="n">such</span> <span class="k">as</span> <span class="n">ACI</span>
+    <span class="s2">&quot;stitched-mode&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;ovs-bridge-name&quot;</span><span class="p">:</span> <span class="s2">&quot;br0&quot;</span><span class="p">,</span>
+
+        <span class="o">//</span> <span class="n">Set</span> <span class="n">encapsulation</span> <span class="nb">type</span><span class="o">.</span>  <span class="n">Must</span> <span class="nb">set</span> <span class="n">either</span> <span class="n">vxlan</span> <span class="ow">or</span> <span class="n">vlan</span><span class="o">.</span>
+        <span class="s2">&quot;encap&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="o">//</span> <span class="n">Encapsulate</span> <span class="n">traffic</span> <span class="k">with</span> <span class="n">VXLAN</span><span class="o">.</span>
+            <span class="s2">&quot;vxlan&quot;</span> <span class="p">:</span> <span class="p">{</span>
+                <span class="o">//</span> <span class="n">The</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">tunnel</span> <span class="n">interface</span> <span class="ow">in</span> <span class="n">OVS</span>
+                <span class="s2">&quot;encap-iface&quot;</span><span class="p">:</span> <span class="s2">&quot;br0_vxlan0&quot;</span><span class="p">,</span>
+
+                <span class="o">//</span> <span class="n">The</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">interface</span> <span class="n">whose</span> <span class="n">IP</span> <span class="n">should</span> <span class="n">be</span> <span class="n">used</span>
+                <span class="o">//</span> <span class="k">as</span> <span class="n">the</span> <span class="n">source</span> <span class="n">IP</span> <span class="ow">in</span> <span class="n">encapsulated</span> <span class="n">traffic</span><span class="o">.</span>
+                <span class="s2">&quot;uplink-iface&quot;</span><span class="p">:</span> <span class="s2">&quot;eth0.4093&quot;</span><span class="p">,</span>
+
+                <span class="o">//</span> <span class="n">The</span> <span class="n">vlan</span> <span class="n">tag</span><span class="p">,</span> <span class="k">if</span> <span class="nb">any</span><span class="p">,</span> <span class="n">used</span> <span class="n">on</span> <span class="n">the</span> <span class="n">uplink</span> <span class="n">interface</span><span class="o">.</span>
+                <span class="o">//</span> <span class="n">Set</span> <span class="n">to</span> <span class="n">zero</span> <span class="ow">or</span> <span class="n">omit</span> <span class="k">if</span> <span class="n">the</span> <span class="n">uplink</span> <span class="ow">is</span> <span class="n">untagged</span><span class="o">.</span>
+                <span class="s2">&quot;uplink-vlan&quot;</span><span class="p">:</span> <span class="mi">4093</span><span class="p">,</span>
+
+                <span class="o">//</span> <span class="n">The</span> <span class="n">IP</span> <span class="n">address</span> <span class="n">used</span> <span class="k">for</span> <span class="n">the</span> <span class="n">destination</span> <span class="n">IP</span> <span class="ow">in</span>
+                <span class="o">//</span> <span class="n">the</span> <span class="n">encapsulated</span> <span class="n">traffic</span><span class="o">.</span>  <span class="n">This</span> <span class="n">should</span> <span class="n">be</span> <span class="n">an</span>
+                <span class="o">//</span> <span class="n">anycast</span> <span class="n">IP</span> <span class="n">address</span> <span class="n">understood</span> <span class="n">by</span> <span class="n">the</span> <span class="n">upstream</span>
+                <span class="o">//</span> <span class="n">stitched</span><span class="o">-</span><span class="n">mode</span> <span class="n">fabric</span><span class="o">.</span>
+                <span class="s2">&quot;remote-ip&quot;</span><span class="p">:</span> <span class="s2">&quot;10.0.0.32&quot;</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="o">//</span> <span class="n">Configure</span> <span class="n">forwarding</span> <span class="n">policy</span>
+        <span class="s2">&quot;forwarding&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="o">//</span> <span class="n">Configure</span> <span class="n">the</span> <span class="n">virtual</span> <span class="n">distributed</span> <span class="n">router</span>
+            <span class="s2">&quot;virtual-router&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="o">//</span> <span class="n">Enable</span> <span class="n">virtual</span> <span class="n">distributed</span> <span class="n">router</span><span class="o">.</span>  <span class="n">Set</span> <span class="n">to</span> <span class="n">true</span>
+                <span class="o">//</span> <span class="n">to</span> <span class="n">enable</span> <span class="ow">or</span> <span class="n">false</span> <span class="n">to</span> <span class="n">disable</span><span class="o">.</span>  <span class="n">Default</span> <span class="n">true</span><span class="o">.</span>
+                <span class="s2">&quot;enabled&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+
+                <span class="o">//</span> <span class="n">Override</span> <span class="n">MAC</span> <span class="n">address</span> <span class="k">for</span> <span class="n">virtual</span> <span class="n">router</span><span class="o">.</span>
+                <span class="o">//</span> <span class="n">Default</span> <span class="ow">is</span> <span class="s2">&quot;00:22:bd:f8:19:ff&quot;</span>
+                <span class="s2">&quot;mac&quot;</span><span class="p">:</span> <span class="s2">&quot;00:22:bd:f8:19:ff&quot;</span><span class="p">,</span>
+
+                <span class="o">//</span> <span class="n">Configure</span> <span class="n">IPv6</span><span class="o">-</span><span class="n">related</span> <span class="n">settings</span> <span class="k">for</span> <span class="n">the</span> <span class="n">virtual</span>
+                <span class="o">//</span> <span class="n">router</span>
+                <span class="s2">&quot;ipv6&quot;</span> <span class="p">:</span> <span class="p">{</span>
+                    <span class="o">//</span> <span class="n">Send</span> <span class="n">router</span> <span class="n">advertisement</span> <span class="n">messages</span> <span class="ow">in</span>
+                    <span class="o">//</span> <span class="n">response</span> <span class="n">to</span> <span class="n">router</span> <span class="n">solicitation</span> <span class="n">requests</span> <span class="k">as</span>
+                    <span class="o">//</span> <span class="n">well</span> <span class="k">as</span> <span class="n">unsolicited</span> <span class="n">advertisements</span><span class="o">.</span>
+                    <span class="s2">&quot;router-advertisement&quot;</span><span class="p">:</span> <span class="n">true</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
+
+            <span class="o">//</span> <span class="n">Configure</span> <span class="n">virtual</span> <span class="n">distributed</span> <span class="n">DHCP</span> <span class="n">server</span>
+            <span class="s2">&quot;virtual-dhcp&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="o">//</span> <span class="n">Enable</span> <span class="n">virtual</span> <span class="n">distributed</span> <span class="n">DHCP</span> <span class="n">server</span><span class="o">.</span>  <span class="n">Set</span> <span class="n">to</span>
+                <span class="o">//</span> <span class="n">true</span> <span class="n">to</span> <span class="n">enable</span> <span class="ow">or</span> <span class="n">false</span> <span class="n">to</span> <span class="n">disable</span><span class="o">.</span>  <span class="n">Default</span>
+                <span class="o">//</span> <span class="n">true</span><span class="o">.</span>
+                <span class="s2">&quot;enabled&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+
+                <span class="o">//</span> <span class="n">Override</span> <span class="n">MAC</span> <span class="n">address</span> <span class="k">for</span> <span class="n">virtual</span> <span class="n">dhcp</span> <span class="n">server</span><span class="o">.</span>
+                <span class="o">//</span> <span class="n">Default</span> <span class="ow">is</span> <span class="s2">&quot;00:22:bd:f8:19:ff&quot;</span>
+                <span class="s2">&quot;mac&quot;</span><span class="p">:</span> <span class="s2">&quot;00:22:bd:f8:19:ff&quot;</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+
+        <span class="o">//</span> <span class="n">Location</span> <span class="n">to</span> <span class="n">store</span> <span class="n">cached</span> <span class="n">IDs</span> <span class="k">for</span> <span class="n">managing</span> <span class="n">flow</span> <span class="n">state</span>
+        <span class="s2">&quot;flowid-cache-dir&quot;</span><span class="p">:</span> <span class="s2">&quot;DEFAULT_FLOWID_CACHE_DIR&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Finally, enable the agent service:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span># systemctl enable agent-ovs
+ln -s &#39;/usr/lib/systemd/system/agent-ovs.service&#39; &#39;/etc/systemd/system/multi-user.target.wants/agent-ovs.service&#39;
+# systemctl start agent-ovs
+# systemctl status agent-ovs
+agent-ovs.service - Opflex OVS Agent
+   Loaded: loaded (/usr/lib/systemd/system/agent-ovs.service; enabled)
+   Active: active (running) since Mon 2014-12-15 10:03:42 PST; 5min ago
+ Main PID: 6062 (agent_ovs)
+   CGroup: /system.slice/agent-ovs.service
+           └─6062 /usr/bin/agent_ovs
+</pre></div>
+</div>
+<p>The agent is now running and ready to enforce policy. You can add
+endpoints to the local VM hosts using the OpFlex Group-based policy
+plugin from OpenStack, or manually.</p>
+</div>
+</div>
+<div class="section" id="ovsdb-openstack-installation-guide">
+<h2>OVSDB OpenStack Installation Guide<a class="headerlink" href="#ovsdb-openstack-installation-guide" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="overview">
+<h3>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h3>
+<p>This guide is geared towards installing OpenDaylight to use the OVSDB
+project to provide Neutron support for OpenStack.</p>
+<p>Open vSwitch (OVS) is generally accepted as the unofficial standard for
+Virtual Switching in the Open hypervisor based solutions. For
+information on OVS, see <a class="reference external" href="http://openvswitch.org/">Open vSwitch</a>.</p>
+<p>With OpenStack within the SDN context, controllers and applications
+interact using two channels: OpenFlow and OVSDB. OpenFlow addresses the
+forwarding-side of the OVS functionality. OVSDB, on the other hand,
+addresses the management-plane. A simple and concise overview of Open
+Virtual Switch Database (OVSDB) is available at:
+<a class="reference external" href="http://networkstatic.net/getting-started-ovsdb/">http://networkstatic.net/getting-started-ovsdb/</a></p>
+</div>
+<div class="section" id="preparing-for-installation">
+<h3>Preparing for Installation<a class="headerlink" href="#preparing-for-installation" title="Permalink to this headline">¶</a></h3>
+<p>Follow the instructions in <a class="reference external" href="#_getting_and_installing_opendaylight">Getting and Installing
+OpenDaylight</a>.</p>
+</div>
+<div class="section" id="installing-ovsdb-openstack">
+<h3>Installing OVSDB OpenStack<a class="headerlink" href="#installing-ovsdb-openstack" title="Permalink to this headline">¶</a></h3>
+<p>Install the required features with the following command:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">feature</span><span class="p">:</span><span class="n">install</span> <span class="n">odl</span><span class="o">-</span><span class="n">ovsdb</span><span class="o">-</span><span class="n">openstack</span>
+</pre></div>
+</div>
+<div class="section" id="sample-output-from-the-karaf-console">
+<h4>Sample output from the Karaf console<a class="headerlink" href="#sample-output-from-the-karaf-console" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">opendaylight</span><span class="o">-</span><span class="n">user</span><span class="nd">@root</span><span class="o">&gt;</span><span class="n">feature</span><span class="p">:</span><span class="nb">list</span> <span class="o">-</span><span class="n">i</span> <span class="o">|</span> <span class="n">grep</span> <span class="n">ovsdb</span>
+<span class="n">odl</span><span class="o">-</span><span class="n">ovsdb</span><span class="o">-</span><span class="n">southbound</span><span class="o">-</span><span class="n">api</span>             <span class="o">|</span> <span class="mf">1.1</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">SNAPSHOT</span>   <span class="o">|</span> <span class="n">x</span>         <span class="o">|</span> <span class="n">odl</span><span class="o">-</span><span class="n">ovsdb</span><span class="o">-</span><span class="n">southbound</span><span class="o">-</span><span class="mf">1.1</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">SNAPSHOT</span>
+<span class="n">OpenDaylight</span> <span class="p">::</span> <span class="n">southbound</span> <span class="p">::</span> <span class="n">api</span>
+<span class="n">odl</span><span class="o">-</span><span class="n">ovsdb</span><span class="o">-</span><span class="n">southbound</span><span class="o">-</span><span class="n">impl</span>            <span class="o">|</span> <span class="mf">1.1</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">SNAPSHOT</span>   <span class="o">|</span> <span class="n">x</span>         <span class="o">|</span> <span class="n">odl</span><span class="o">-</span><span class="n">ovsdb</span><span class="o">-</span><span class="n">southbound</span><span class="o">-</span><span class="mf">1.1</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">SNAPSHOT</span>
+<span class="n">OpenDaylight</span> <span class="p">::</span> <span class="n">southbound</span> <span class="p">::</span> <span class="n">impl</span>
+<span class="n">odl</span><span class="o">-</span><span class="n">ovsdb</span><span class="o">-</span><span class="n">southbound</span><span class="o">-</span><span class="n">impl</span><span class="o">-</span><span class="n">rest</span>       <span class="o">|</span> <span class="mf">1.1</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">SNAPSHOT</span>   <span class="o">|</span> <span class="n">x</span>         <span class="o">|</span> <span class="n">odl</span><span class="o">-</span><span class="n">ovsdb</span><span class="o">-</span><span class="n">southbound</span><span class="o">-</span><span class="mf">1.1</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">SNAPSHOT</span>
+<span class="n">OpenDaylight</span> <span class="p">::</span> <span class="n">southbound</span> <span class="p">::</span> <span class="n">impl</span> <span class="p">::</span> <span class="n">REST</span>
+<span class="n">odl</span><span class="o">-</span><span class="n">ovsdb</span><span class="o">-</span><span class="n">southbound</span><span class="o">-</span><span class="n">impl</span><span class="o">-</span><span class="n">ui</span>         <span class="o">|</span> <span class="mf">1.1</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">SNAPSHOT</span>   <span class="o">|</span> <span class="n">x</span>         <span class="o">|</span> <span class="n">odl</span><span class="o">-</span><span class="n">ovsdb</span><span class="o">-</span><span class="n">southbound</span><span class="o">-</span><span class="mf">1.1</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">SNAPSHOT</span>
+<span class="n">OpenDaylight</span> <span class="p">::</span> <span class="n">southbound</span> <span class="p">::</span> <span class="n">impl</span> <span class="p">::</span> <span class="n">UI</span>
+<span class="n">odl</span><span class="o">-</span><span class="n">ovsdb</span><span class="o">-</span><span class="n">openstack</span>                  <span class="o">|</span> <span class="mf">1.1</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">SNAPSHOT</span>   <span class="o">|</span> <span class="n">x</span>         <span class="o">|</span> <span class="n">ovsdb</span><span class="o">-</span><span class="mf">1.1</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">SNAPSHOT</span>
+<span class="n">OpenDaylight</span> <span class="p">::</span> <span class="n">OVSDB</span> <span class="p">::</span> <span class="n">OpenStack</span> <span class="n">Network</span> <span class="n">Virtual</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="verifying-your-installation">
+<h3>Verifying your Installation<a class="headerlink" href="#verifying-your-installation" title="Permalink to this headline">¶</a></h3>
+<p>To verify that the installation was successful, use the following
+command in karaf and check that there are no errors logs relating to
+odl-ovsdb-openstack.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">log</span><span class="p">:</span><span class="n">display</span>
+</pre></div>
+</div>
+<div class="section" id="troubleshooting">
+<h4>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h4>
+<p>There is no easy way to troubleshoot an installation of
+odl-ovsdb-openstack. Perhaps a combination of log:display | grep -i
+ovsdb in karaf, Open vSwitch commands (ovs-vsctl) and OpenStack logs
+will be useful but will not explain everything.</p>
+</div>
+</div>
+<div class="section" id="uninstalling-ovsdb-openstack">
+<h3>Uninstalling OVSDB OpenStack<a class="headerlink" href="#uninstalling-ovsdb-openstack" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">Shutdown the karaf instance:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">system</span><span class="p">:</span><span class="n">shutdown</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Remove what is in the /data folder of the OpenDaylight Distribution.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="ovsdb-service-function-chaining-installation-guide">
+<h2>OVSDB Service Function Chaining Installation Guide<a class="headerlink" href="#ovsdb-service-function-chaining-installation-guide" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>Overview<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>TBD</p>
+</div>
+<div class="section" id="id2">
+<h3>Preparing for Installation<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>Follow the instructions in <a class="reference external" href="#_getting_and_installing_opendaylight">Getting and Installing
+OpenDaylight</a>.</p>
+</div>
+<div class="section" id="installing-ovsdb-service-function-chaining">
+<h3>Installing OVSDB Service Function Chaining<a class="headerlink" href="#installing-ovsdb-service-function-chaining" title="Permalink to this headline">¶</a></h3>
+<p>Install the required features with the following command:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">feature</span><span class="p">:</span><span class="n">install</span> <span class="n">odl</span><span class="o">-</span><span class="n">ovsdb</span><span class="o">-</span><span class="n">sfc</span><span class="o">-</span><span class="n">ui</span>
+</pre></div>
+</div>
+<div class="section" id="id3">
+<h4>Sample output from the Karaf console<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">TBD</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id4">
+<h3>Verifying your Installation<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>To verify that the installation was successful, use the following
+command in karaf and check that there are no error logs relating to
+odl-ovsdb-sfc</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">log</span><span class="p">:</span><span class="n">display</span>
+</pre></div>
+</div>
+<div class="section" id="id5">
+<h4>Troubleshooting<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
+<p>TBD</p>
+</div>
+</div>
+<div class="section" id="uninstalling-ovsdb-service-function-chaining">
+<h3>Uninstalling OVSDB Service Function Chaining<a class="headerlink" href="#uninstalling-ovsdb-service-function-chaining" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">Shutdown the karaf instance:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">system</span><span class="p">:</span><span class="n">shutdown</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Remove what is in the /data folder of the OpenDaylight Distribution.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="ovsdb-netvirt-hardware-vtep-installation-guide">
+<h2>OVSDB NetVirt Hardware VTEP Installation Guide<a class="headerlink" href="#ovsdb-netvirt-hardware-vtep-installation-guide" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h3>Overview<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>TBD</p>
+</div>
+<div class="section" id="id7">
+<h3>Preparing for Installation<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>Follow the instructions in <a class="reference external" href="#_getting_and_installing_opendaylight">Getting and Installing
+OpenDaylight</a>.</p>
+</div>
+<div class="section" id="installing-ovsdb-netvirt-hardware-vtep">
+<h3>Installing OVSDB NetVirt Hardware VTEP<a class="headerlink" href="#installing-ovsdb-netvirt-hardware-vtep" title="Permalink to this headline">¶</a></h3>
+<p>Install the required features with the following command:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">feature</span><span class="p">:</span><span class="n">install</span> <span class="n">odl</span><span class="o">-</span><span class="n">ovsdb</span><span class="o">-</span><span class="n">netvirt</span><span class="o">-</span><span class="n">hwvtep</span>
+</pre></div>
+</div>
+<div class="section" id="id8">
+<h4>Sample output from the Karaf console<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">TBD</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id9">
+<h3>Verifying your Installation<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>To verify that the installation was successful, use the following
+command in karaf and check that there are no error logs relating to
+odl-ovsdb-netvirt-hwvtep</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">log</span><span class="p">:</span><span class="n">display</span>
+</pre></div>
+</div>
+<div class="section" id="id10">
+<h4>Troubleshooting<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h4>
+<p>TBD</p>
+</div>
+</div>
+<div class="section" id="uninstalling-ovsdb-netvirt-hardware-vtep">
+<h3>Uninstalling OVSDB NetVirt Hardware VTEP<a class="headerlink" href="#uninstalling-ovsdb-netvirt-hardware-vtep" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">Shutdown the karaf instance:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">system</span><span class="p">:</span><span class="n">shutdown</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Remove what is in the /data folder of the OpenDaylight Distribution.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="tsdr-installation-guide">
+<h2>TSDR Installation Guide<a class="headerlink" href="#tsdr-installation-guide" title="Permalink to this headline">¶</a></h2>
+<p>This document is for the user to install the artifacts that are needed
+for using Time Series Data Repository (TSDR) functionality in the ODL
+Controller by enabling either an HSQLDB, HBase, or Cassandra Data Store.</p>
+<div class="section" id="id11">
+<h3>Overview<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<p>The Time Series Data Repository (TSDR) project in OpenDaylight (ODL)
+creates a framework for collecting, storing, querying, and maintaining
+time series data in the OpenDaylight SDN controller. Please refer to the
+User Guide for the detailed description of the functionality of the
+project and how to use the corresponding features provided in TSDR.</p>
+</div>
+<div class="section" id="pre-requisites-for-installing-tsdr">
+<h3>Pre Requisites for Installing TSDR<a class="headerlink" href="#pre-requisites-for-installing-tsdr" title="Permalink to this headline">¶</a></h3>
+<p>The software requirements for TSDR HBase Data Store are as follows:</p>
+<ul class="simple">
+<li>In the case when the user chooses HBase or Cassandra data store,
+besides the software that ODL requires, we also require HBase and
+Cassandra database running in single node deployment scenario.</li>
+</ul>
+<p>No additional software is required for the HSQLDB Data Stores.</p>
+</div>
+<div class="section" id="id12">
+<h3>Preparing for Installation<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first">When using HBase data store, download HBase from the following
+website:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">archive</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">dist</span><span class="o">/</span><span class="n">hbase</span><span class="o">/</span><span class="n">hbase</span><span class="o">-</span><span class="mf">0.94</span><span class="o">.</span><span class="mi">15</span><span class="o">/</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">When using Cassandra data store, download Cassandra from the
+following website:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">eu</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">dist</span><span class="o">/</span><span class="n">cassandra</span><span class="o">/</span><span class="mf">2.1</span><span class="o">.</span><span class="mi">10</span><span class="o">/</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">No additional steps are required to install the TSDR HSQL Data Store.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="installing-tsdr-data-stores">
+<h3>Installing TSDR Data Stores<a class="headerlink" href="#installing-tsdr-data-stores" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="installing-hsqldb-data-store">
+<h4>Installing HSQLDB Data Store<a class="headerlink" href="#installing-hsqldb-data-store" title="Permalink to this headline">¶</a></h4>
+<p>Once OpenDaylight distribution is up, from karaf console install the
+HSQLDB data store using the following command:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">feature</span><span class="p">:</span><span class="n">install</span> <span class="n">odl</span><span class="o">-</span><span class="n">tsdr</span><span class="o">-</span><span class="n">hsqldb</span><span class="o">-</span><span class="nb">all</span>
+</pre></div>
+</div>
+<p>This will install hsqldb related dependency features (and can take
+sometime) as well as openflow statistics collector before returning
+control to the console. e</p>
+</div>
+<div class="section" id="installing-hbase-data-store">
+<h4>Installing HBase Data Store<a class="headerlink" href="#installing-hbase-data-store" title="Permalink to this headline">¶</a></h4>
+<p>Installing TSDR HBase Data Store contains two steps:</p>
+<ul class="simple">
+<li>Installing HBase server, and</li>
+<li>Installing TSDR HBase Data Store features from ODL Karaf console.</li>
+</ul>
+<p>In Beryllium, we only support HBase single node running together on the
+same machine as OpenDaylight. Therefore, follow the steps to download
+and install HBase server onto the same machine as where OpenDaylight is
+running:</p>
+<ul class="simple">
+<li>Create a folder in Linux operating system for the HBase server.</li>
+</ul>
+<p>For example, create an hbase directory under /usr/lib:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">hbase</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Unzip the downloaded HBase server tar file.</li>
+</ul>
+<p>Run the following command to unzip the installation package:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">tar</span> <span class="n">xvf</span> <span class="o">&lt;</span><span class="n">hbase</span><span class="o">-</span><span class="n">installer</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span>  <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">hbase</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Make proper changes in hbase-site.xml<ol class="loweralpha">
+<li>Under &lt;hbase-install-directory&gt;/conf/, there is a hbase-site.xml.
+Although it is not recommended, an experienced user with HBase can
+modify the data directory for hbase server to store the data.</li>
+<li>Modify the value of the property with name &#8220;hbase.rootdir&#8221; in the
+file to reflect the desired file directory for storing hbase data.</li>
+</ol>
+</li>
+</ul>
+<p>The following is an example of the file:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">configuration</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="nb">property</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span><span class="n">hbase</span><span class="o">.</span><span class="n">rootdir</span><span class="o">&lt;/</span><span class="n">name</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span><span class="n">file</span><span class="p">:</span><span class="o">///</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">hbase</span><span class="o">/</span><span class="n">data</span><span class="o">&lt;/</span><span class="n">value</span><span class="o">&gt;</span>
+  <span class="o">&lt;/</span><span class="nb">property</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="nb">property</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span><span class="n">hbase</span><span class="o">.</span><span class="n">zookeeper</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">dataDir</span><span class="o">&lt;/</span><span class="n">name</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">hbase</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">&lt;/</span><span class="n">value</span><span class="o">&gt;</span>
+  <span class="o">&lt;/</span><span class="nb">property</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">configuration</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<ul>
+<li><p class="first">start hbase server</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">&lt;</span><span class="n">hbase</span><span class="o">-</span><span class="n">installation</span><span class="o">-</span><span class="n">directory</span><span class="o">&gt;</span>
+<span class="o">./</span><span class="n">start</span><span class="o">-</span><span class="n">hbase</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">start hbase shell</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">&lt;</span><span class="n">hbase</span><span class="o">-</span><span class="n">insatllation</span><span class="o">-</span><span class="n">directory</span><span class="o">&gt;</span>
+<span class="o">./</span><span class="n">hbase</span> <span class="n">shell</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">start Karaf console</p>
+</li>
+<li><p class="first">install hbase data store feature from Karaf console</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">feature</span><span class="p">:</span><span class="n">install</span> <span class="n">odl</span><span class="o">-</span><span class="n">tsdr</span><span class="o">-</span><span class="n">hbase</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="installing-cassandra-data-store">
+<h4>Installing Cassandra Data Store<a class="headerlink" href="#installing-cassandra-data-store" title="Permalink to this headline">¶</a></h4>
+<p>Installing TSDR Cassandra Data Store contains two steps:</p>
+<ul class="simple">
+<li>Installing Cassandra server, and</li>
+<li>Installing TSDR Cassandra Data Store features from ODL Karaf console.</li>
+</ul>
+<p>In Beryllium, we only support Cassadra single node running together on
+the same machine as OpenDaylight. Therefore, follow these steps to
+download and install Cassandra server onto the same machine as where
+OpenDaylight is running:</p>
+<p>Install Cassandra (latest stable version) by downloading the zip file
+and untar the tar ball to cassandra/ directory on the testing machine.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">cassandra</span>
+<span class="n">wget</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">eu</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">dist</span><span class="o">/</span><span class="n">cassandra</span><span class="o">/</span><span class="mf">2.1</span><span class="o">.</span><span class="mi">10</span><span class="o">/</span><span class="n">apache</span><span class="o">-</span><span class="n">cassandra</span><span class="o">-</span><span class="mf">2.1</span><span class="o">.</span><span class="mi">10</span><span class="o">-</span><span class="nb">bin</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span><span class="p">[</span><span class="mf">2.1</span><span class="o">.</span><span class="mi">10</span> <span class="ow">is</span> <span class="n">current</span> <span class="n">stable</span> <span class="n">version</span><span class="p">,</span> <span class="n">it</span> <span class="n">can</span> <span class="n">vary</span><span class="p">]</span>
+<span class="n">mv</span> <span class="n">apache</span><span class="o">-</span><span class="n">cassandra</span><span class="o">-</span><span class="mf">2.1</span><span class="o">.</span><span class="mi">10</span><span class="o">-</span><span class="nb">bin</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span> <span class="n">cassandra</span><span class="o">/</span>
+<span class="n">cd</span> <span class="n">cassandra</span>
+<span class="n">tar</span> <span class="o">-</span><span class="n">xvzf</span> <span class="n">apache</span><span class="o">-</span><span class="n">cassandra</span><span class="o">-</span><span class="mf">2.1</span><span class="o">.</span><span class="mi">10</span><span class="o">-</span><span class="nb">bin</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
+</pre></div>
+</div>
+<p>Start Cassandra from cassandra directory by running:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">apache</span><span class="o">-</span><span class="n">cassandra</span><span class="o">-</span><span class="mf">2.1</span><span class="o">.</span><span class="mi">10</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">cassandra</span>
+</pre></div>
+</div>
+<p>Start cassandra shell by running:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">apache</span><span class="o">-</span><span class="n">cassandra</span><span class="o">-</span><span class="mf">2.1</span><span class="o">.</span><span class="mi">10</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">cqlsh</span>
+</pre></div>
+</div>
+<p>Start Karaf according to the instructions above.</p>
+<p>Install Cassandra data store feature from Karaf console:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">feature</span><span class="p">:</span><span class="n">install</span> <span class="n">odl</span><span class="o">-</span><span class="n">tsdr</span><span class="o">-</span><span class="n">cassandra</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id13">
+<h3>Verifying your Installation<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<p>After the TSDR data store is installed, no matter whether it is HBase
+data store, Cassandra data store, or HSQLDB data store, the user can
+verify the installation with the following steps.</p>
+<ul>
+<li><p class="first">Verify if the following two tsdr commands are available from Karaf
+console:</p>
+<ul class="simple">
+<li>tsdr:list</li>
+<li>tsdr:purgeAll</li>
+</ul>
+</li>
+<li><p class="first">Verify if openflow statisitcs data can be received successfully:</p>
+<ul>
+<li><p class="first">Run &#8220;feature:install odl-tsdr-openflow-statistics-collector&#8221; from
+Karaf.</p>
+</li>
+<li><p class="first">Run mininet to connect to ODL controller. For example, use the
+following command to start a three node topology:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="s2">&quot;mn --topo single,3  --controller &#39;remote,ip=172.17.252.210,port=6653&#39; --switch ovsk,protocols=OpenFlow13&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">From Karaf console, the user should be able to retrieve the
+statistics data of OpenFlow statistics data from the console:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">tsdr</span><span class="p">:</span><span class="nb">list</span> <span class="n">FLOWSTATS</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+<div class="section" id="id14">
+<h4>Troubleshooting<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h4>
+<p>Check the ../data/log/karaf.log for any exception related to TSDR
+features.</p>
+</div>
+<div class="section" id="post-installation-configuration">
+<h4>Post Installation Configuration<a class="headerlink" href="#post-installation-configuration" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="post-installation-configuration-for-hsqldb-data-store">
+<h5>Post Installation Configuration for HSQLDB Data Store<a class="headerlink" href="#post-installation-configuration-for-hsqldb-data-store" title="Permalink to this headline">¶</a></h5>
+<p>The feature installation takes care of automated configuration of the
+datasource by installing a file in &lt;install folder&gt;/etc named
+org.ops4j.datasource-metric.cfg. This contains the default location of
+&lt;install folder&gt;/tsdr where the HSQLDB datastore files are stored. If
+you want to change the default location of the datastore files to some
+other location update the last portion of the url property in the
+org.ops4j.datasource-metric.cfg and then restart the Karaf container.</p>
+</div>
+<div class="section" id="post-installation-configuration-for-hbase-data-store">
+<h5>Post Installation Configuration for HBase Data Store<a class="headerlink" href="#post-installation-configuration-for-hbase-data-store" title="Permalink to this headline">¶</a></h5>
+<p>Please refer to HBase Data Store User Guide.</p>
+</div>
+<div class="section" id="post-installation-configuration-for-cassandra-data-store">
+<h5>Post Installation Configuration for Cassandra Data Store<a class="headerlink" href="#post-installation-configuration-for-cassandra-data-store" title="Permalink to this headline">¶</a></h5>
+<p>There is no post configuration for TSDR Cassandra data store.</p>
+</div>
+</div>
+</div>
+<div class="section" id="upgrading-from-a-previous-release">
+<h3>Upgrading From a Previous Release<a class="headerlink" href="#upgrading-from-a-previous-release" title="Permalink to this headline">¶</a></h3>
+<p>The HBase data store was supported in the previous release as well as in
+this release. However, we do not support data store upgrade for HBase
+data store. The user needs to reinstall TSDR and start to collect data
+in TSDR HBase datastore after the installation.</p>
+<p>HSQLDB and Cassandra are new data stores introduced in this release.
+Therefore, upgrading from previous release does not apply in these two
+data store scenarios.</p>
+</div>
+<div class="section" id="uninstalling-tsdr-data-stores">
+<h3>Uninstalling TSDR Data Stores<a class="headerlink" href="#uninstalling-tsdr-data-stores" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="to-uninstall-tsdr-hsqldb-data-store">
+<h4>To uninstall TSDR HSQLDB data store<a class="headerlink" href="#to-uninstall-tsdr-hsqldb-data-store" title="Permalink to this headline">¶</a></h4>
+<p>To uninstall the TSDR functionality with the default store, you need to
+do the following from karaf console</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">feature</span><span class="p">:</span><span class="n">uninstall</span> <span class="n">odl</span><span class="o">-</span><span class="n">tsdr</span><span class="o">-</span><span class="n">hsqldb</span><span class="o">-</span><span class="nb">all</span>
+<span class="n">feature</span><span class="p">:</span><span class="n">uninstall</span> <span class="n">odl</span><span class="o">-</span><span class="n">tsdr</span><span class="o">-</span><span class="n">core</span>
+<span class="n">feature</span><span class="p">:</span><span class="n">uninstall</span> <span class="n">odl</span><span class="o">-</span><span class="n">tsdr</span><span class="o">-</span><span class="n">hsqldb</span>
+<span class="n">feature</span><span class="p">:</span><span class="n">uninstall</span> <span class="n">odl</span><span class="o">-</span><span class="n">tsdr</span><span class="o">-</span><span class="n">openflow</span><span class="o">-</span><span class="n">statistics</span><span class="o">-</span><span class="n">collector</span>
+</pre></div>
+</div>
+<p>It is recommended to restart the Karaf container after the
+uninstallation of the TSDR functionality with the default store.</p>
+</div>
+<div class="section" id="to-uninstall-tsdr-hbase-data-store">
+<h4>To uninstall TSDR HBase Data Store<a class="headerlink" href="#to-uninstall-tsdr-hbase-data-store" title="Permalink to this headline">¶</a></h4>
+<p>To uninstall the TSDR functionality with the HBase data store,</p>
+<ul>
+<li><p class="first">Uninstall HBase data store related features from karaf console</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">feature</span><span class="p">:</span><span class="n">uninstall</span> <span class="n">odl</span><span class="o">-</span><span class="n">tsdr</span><span class="o">-</span><span class="n">hbase</span>
+<span class="n">feature</span><span class="p">:</span><span class="n">uninstall</span> <span class="n">odl</span><span class="o">-</span><span class="n">tsdr</span><span class="o">-</span><span class="n">core</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">stop hbase server</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">&lt;</span><span class="n">hbase</span><span class="o">-</span><span class="n">installation</span><span class="o">-</span><span class="n">directory</span><span class="o">&gt;</span>
+<span class="o">./</span><span class="n">stop</span><span class="o">-</span><span class="n">hbase</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">remove the file directory that contains the HBase server installation</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">rm</span> <span class="o">-</span><span class="n">r</span> <span class="o">&lt;</span><span class="n">hbase</span><span class="o">-</span><span class="n">installation</span><span class="o">-</span><span class="n">directory</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>It is recommended to restart the Karaf container after the
+uninstallation of the TSDR data store. ==== To uninstall TSDR Cassandra
+Data Store To uninstall the TSDR functionality with the Cassandra store,</p>
+<ul>
+<li><p class="first">uninstall cassandra data store related features following from karaf
+console</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">feature</span><span class="p">:</span><span class="n">uninstall</span> <span class="n">odl</span><span class="o">-</span><span class="n">tsdr</span><span class="o">-</span><span class="n">cassandra</span>
+<span class="n">feature</span><span class="p">:</span><span class="n">uninstall</span> <span class="n">odl</span><span class="o">-</span><span class="n">tsdr</span><span class="o">-</span><span class="n">core</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">stop cassandra database</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ps</span> <span class="n">auwx</span> <span class="o">|</span> <span class="n">grep</span> <span class="n">cassandra</span>
+<span class="n">sudo</span> <span class="n">kill</span> <span class="n">pid</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">remove the cassandra installation files</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">rm</span> <span class="o">&lt;</span><span class="n">cassandra</span><span class="o">-</span><span class="n">installation</span><span class="o">-</span><span class="n">directory</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>It is recommended to restart the Karaf container after uninstallation of
+the TSDR data store.</p>
+</div>
+</div>
+</div>
+<div class="section" id="vtn-installation-guide">
+<h2>VTN Installation Guide<a class="headerlink" href="#vtn-installation-guide" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id15">
+<h3>Overview<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<p>OpenDaylight Virtual Tenant Network (VTN) is an application that
+provides multi-tenant virtual network on an SDN controller.</p>
+<p>Conventionally, huge investment in the network systems and operating
+expenses are needed because the network is configured as a silo for each
+department and system. Therefore various network appliances must be
+installed for each tenant and those boxes cannot be shared with others.
+It is a heavy work to design, implement and operate the entire complex
+network.</p>
+<p>The uniqueness of VTN is a logical abstraction plane. This enables the
+complete separation of logical plane from physical plane. Users can
+design and deploy any desired network without knowing the physical
+network topology or bandwidth restrictions.</p>
+<p>VTN allows the users to define the network with a look and feel of
+conventional L2/L3 network. Once the network is designed on VTN, it will
+automatically be mapped into underlying physical network, and then
+configured on the individual switch leverage SDN control protocol. The
+definition of logical plane makes it possible not only to hide the
+complexity of the underlying network but also to better manage network
+resources. It achieves reducing reconfiguration time of network services
+and minimizing network configuration errors. OpenDaylight Virtual Tenant
+Network (VTN) is an application that provides multi-tenant virtual
+network on an SDN controller. It provides API for creating a common
+virtual network irrespective of the physical network.</p>
+<p>It is implemented as two major components</p>
+<ul class="simple">
+<li><a class="reference external" href="#_vtn_manager">VTN Manager</a></li>
+<li><a class="reference external" href="#_vtn_coordinator">VTN Coordinator</a></li>
+</ul>
+<div class="section" id="vtn-manager">
+<h4>VTN Manager<a class="headerlink" href="#vtn-manager" title="Permalink to this headline">¶</a></h4>
+<p>An OpenDaylight Controller Plugin that interacts with other modules to
+implement the components of the VTN model. It also provides a REST
+interface to configure VTN components in ODL controller. VTN Manager is
+implemented as one plugin to the OpenDaylight controller. This provides
+a REST interface to create/update/delete VTN components. The user
+command in VTN Coordinator is translated as REST API to VTN Manager by
+the ODC Driver component. In addition to the above mentioned role, it
+also provides an implementation to the OpenStack L2 Network Functions
+API.</p>
+</div>
+<div class="section" id="vtn-coordinator">
+<h4>VTN Coordinator<a class="headerlink" href="#vtn-coordinator" title="Permalink to this headline">¶</a></h4>
+<p>The VTN Coordinator is an external application that provides a REST
+interface for a user to use the VTN Virtualization. It interacts with
+VTN Manager plugin to implement the user configuration. It is also
+capable of multiple controller orchestration. It realizes Virtual Tenant
+Network (VTN) provisioning in OpenDaylight Controllers (ODC). In the
+OpenDaylight architecture VTN Coordinator is part of the network
+application, orchestration and services layer. VTN Coordinator has been
+implemented as an external application to the OpenDaylight controller.
+This component is responsible for the VTN virtualization. VTN
+Coordinator will use the REST interface exposed by the VTN Manger to
+realize the virtual network using the OpenDaylight controller. It uses
+OpenDaylight APIs (REST) to construct the virtual network in ODCs. It
+provides REST APIs for northbound VTN applications and supports virtual
+networks spanning across multiple ODCs by coordinating across ODCs.</p>
+</div>
+</div>
+<div class="section" id="id16">
+<h3>Preparing for Installation<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id17">
+<h4>VTN Manager<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id18">
+<h5>Running the Karaf distribution<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h5>
+<p>Follow the instructions in <a class="reference external" href="#_getting_and_installing_opendaylight">Getting and Installing
+OpenDaylight</a>.</p>
+</div>
+</div>
+<div class="section" id="id19">
+<h4>VTN Coordinator<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p class="first">Arrange a physical/virtual server with any one of the supported
+64-bit OS environment.</p>
+<ul class="simple">
+<li>RHEL 6 / 7</li>
+<li>CentOS 6 / 7</li>
+<li>Fedora 20 / 21 / 22</li>
+</ul>
+</li>
+<li><p class="first">Install these packages</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">yum</span> <span class="n">install</span> <span class="n">perl</span><span class="o">-</span><span class="n">Digest</span><span class="o">-</span><span class="n">SHA</span> <span class="n">uuid</span> <span class="n">libxslt</span> <span class="n">libcurl</span> <span class="n">unixODBC</span> <span class="n">json</span><span class="o">-</span><span class="n">c</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">rpm</span> <span class="o">-</span><span class="n">ivh</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">yum</span><span class="o">.</span><span class="n">postgresql</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="mf">9.3</span><span class="o">/</span><span class="n">redhat</span><span class="o">/</span><span class="n">rhel</span><span class="o">-</span><span class="mi">6</span><span class="o">-</span><span class="n">x86_64</span><span class="o">/</span><span class="n">pgdg</span><span class="o">-</span><span class="n">redhat93</span><span class="o">-</span><span class="mf">9.3</span><span class="o">-</span><span class="mf">1.</span><span class="n">noarch</span><span class="o">.</span><span class="n">rpm</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">yum</span> <span class="n">install</span> <span class="n">postgresql93</span><span class="o">-</span><span class="n">libs</span> <span class="n">postgresql93</span> <span class="n">postgresql93</span><span class="o">-</span><span class="n">server</span> <span class="n">postgresql93</span><span class="o">-</span><span class="n">contrib</span> <span class="n">postgresql93</span><span class="o">-</span><span class="n">odbc</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="installing-vtn">
+<h3>Installing VTN<a class="headerlink" href="#installing-vtn" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id20">
+<h4>VTN Manager<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h4>
+<p>Install Feature</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">feature</span><span class="p">:</span><span class="n">install</span> <span class="n">odl</span><span class="o">-</span><span class="n">vtn</span><span class="o">-</span><span class="n">manager</span><span class="o">-</span><span class="n">rest</span> <span class="n">odl</span><span class="o">-</span><span class="n">vtn</span><span class="o">-</span><span class="n">manager</span><span class="o">-</span><span class="n">neutron</span>
+
+<span class="o">**</span><span class="n">Note</span><span class="o">**</span>
+
+<span class="n">The</span> <span class="n">above</span> <span class="n">command</span> <span class="n">will</span> <span class="n">install</span> <span class="nb">all</span> <span class="n">features</span> <span class="n">of</span> <span class="n">VTN</span> <span class="n">Manager</span><span class="o">.</span> <span class="n">You</span> <span class="n">can</span>
+<span class="n">install</span> <span class="n">only</span> <span class="n">REST</span> <span class="ow">or</span> <span class="n">Neutron</span> <span class="n">also</span><span class="o">.</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id21">
+<h4>VTN Coordinator<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p class="first">Enter into the externalapps directory in the top directory of Lithium</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">distribution</span><span class="o">-</span><span class="n">karaf</span><span class="o">-</span><span class="mf">0.2</span><span class="o">.</span><span class="mi">1</span><span class="o">-</span><span class="n">Lithium</span><span class="o">-</span><span class="n">SR1</span><span class="o">/</span><span class="n">externalapps</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Run the below command to extract VTN Coordinator from the tar.bz2
+file in the externalapps directory.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>tar –C/ -jxvf distribution.vtn-coordinator-6.0.0.1-Lithium-SR1-bin.tar.bz2
+</pre></div>
+</div>
+</li>
+</ul>
+<p>This will install VTN Coordinator to /usr/local/vtn directory. The name
+of the tar.bz2 file name varies depending on the version. Please give
+the same tar.bz2 file name which is there in your directory.</p>
+<ul>
+<li><p class="first">Configuring database for VTN Coordinator</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">vtn</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">db_setup</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">To start the Coordinator</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">vtn</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">vtn_start</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>Using VTN REST API:</p>
+<p>Get the version of VTN REST API using the below command, and make sure
+the setup is working.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">--</span><span class="n">user</span> <span class="n">admin</span><span class="p">:</span><span class="n">adminpass</span> <span class="o">-</span><span class="n">H</span> <span class="s1">&#39;content-type: application/json&#39;</span> <span class="o">-</span><span class="n">X</span> <span class="n">GET</span> <span class="n">http</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">VTN_COORDINATOR_IP_ADDRESS</span><span class="o">&gt;</span><span class="p">:</span><span class="mi">8083</span><span class="o">/</span><span class="n">vtn</span><span class="o">-</span><span class="n">webapi</span><span class="o">/</span><span class="n">api_version</span><span class="o">.</span><span class="n">json</span>
+</pre></div>
+</div>
+<p>The response should be like this, but version might differ:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;api_version&quot;</span><span class="p">:{</span><span class="s2">&quot;version&quot;</span><span class="p">:</span><span class="s2">&quot;V1.2&quot;</span><span class="p">}}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id22">
+<h3>Verifying your Installation<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id23">
+<h4>VTN Manager<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p class="first">In the karaf prompt, type the below command to ensure that vtn
+packages are installed.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">feature</span><span class="p">:</span><span class="nb">list</span> <span class="n">i</span> <span class="o">|</span> <span class="n">grep</span> <span class="n">vtn</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Run any VTN Manager REST API</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">--</span><span class="n">user</span> <span class="s2">&quot;admin&quot;</span><span class="p">:</span><span class="s2">&quot;admin&quot;</span> <span class="o">-</span><span class="n">H</span> <span class="s2">&quot;Accept: application/json&quot;</span> <span class="o">-</span><span class="n">H</span> \<span class="s2">&quot;Content-type: application/json&quot;</span> <span class="o">-</span><span class="n">X</span> <span class="n">GET</span> \<span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">localhost</span><span class="p">:</span><span class="mi">8282</span><span class="o">/</span><span class="n">controller</span><span class="o">/</span><span class="n">nb</span><span class="o">/</span><span class="n">v2</span><span class="o">/</span><span class="n">vtn</span><span class="o">/</span><span class="n">default</span><span class="o">/</span><span class="n">vtns</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="id24">
+<h4>VTN Coordinator<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>ps –ef | grep unc will list all the vtn apps</li>
+<li>Run any REST API for VTN Coordinator version</li>
+</ul>
+</div>
+</div>
+<div class="section" id="uninstalling-vtn">
+<h3>Uninstalling VTN<a class="headerlink" href="#uninstalling-vtn" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id25">
+<h4>VTN Manager<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Feature</span><span class="p">:</span><span class="n">uninstall</span> <span class="n">odl</span><span class="o">-</span><span class="n">vtnmanager</span><span class="o">-</span><span class="nb">all</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id26">
+<h4>VTN Coordinator<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">vtn</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">vtn_stop</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Remove</span> <span class="n">the</span> <span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">vtn</span> <span class="n">folder</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, OpenDaylight Project.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
