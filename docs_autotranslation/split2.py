@@ -4,7 +4,7 @@ import os
 
 #Filenames for each guide
 guides = ['header','section_Git_and_Gerrit_Setup','section_Hacking_from_CLI','developing-app','alto/alto-developer-guide','armoury/odl-armoury-dev','bgpcep/odl-bgpcep-bgp-all-dev'
-,'capwap/capwap-dev','controller/controller','didm/didm-dev','dlux/dlux-core-dev','iotdm/iotdm-dev','l2switch/l2switch-dev','lacp/lacp-dev.adoc','messaging4transport/messaging4transport-developer',
+,'capwap/capwap-dev','controller/controller','didm/didm-dev','dlux/dlux-core-dev','iotdm/iotdm-dev','l2switch/l2switch-dev','lacp/lacp-dev','messaging4transport/messaging4transport-developer',
 'controller/netconf/odl-netconf-dev','nic/nic-dev','nemo/odl-nemo-engine-dev','netide/netide-developer-guide','neutron/neutron','sdninterfaceapp/odl-sdninterfaceapp-all-dev',
 'openflowjava/odl-openflowjava-protocol-dev','openflowplugin/odl-ofp-developer-guide','opflex/agent-ovs-dev','opflex/genie-dev','opflex/libopflex-dev',
 'ovsdb/ovsdb-southbound-developer', #newly added guides
