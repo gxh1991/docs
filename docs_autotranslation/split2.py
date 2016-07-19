@@ -3,15 +3,18 @@ import re
 import os
 
 #Filenames for each guide
-guides = ['section_Git_and_Gerrit_Setup','section_Hacking_from_CLI','developing-app','alto/alto-developer-guide','armoury/odl-armoury-dev','bgpcep/odl-bgpcep-bgp-all-dev'
+guides = ['header','section_Git_and_Gerrit_Setup','section_Hacking_from_CLI','developing-app','alto/alto-developer-guide','armoury/odl-armoury-dev','bgpcep/odl-bgpcep-bgp-all-dev'
 ,'capwap/capwap-dev','controller/controller','didm/didm-dev','dlux/dlux-core-dev','iotdm/iotdm-dev','l2switch/l2switch-dev','lacp/lacp-dev.adoc','messaging4transport/messaging4transport-developer',
 'controller/netconf/odl-netconf-dev','nic/nic-dev','nemo/odl-nemo-engine-dev','netide/netide-developer-guide','neutron/neutron','sdninterfaceapp/odl-sdninterfaceapp-all-dev',
 'openflowjava/odl-openflowjava-protocol-dev','openflowplugin/odl-ofp-developer-guide','opflex/agent-ovs-dev','opflex/genie-dev','opflex/libopflex-dev',
-'ovsdb/ovsdb-developer','bgpcep/odl-bgpcep-pcep-all-dev','packetcable/packetcable-dev','sfc/sfc','sxp/odl-sxp-dev','tcpmd5/odl-tcpmd5-all-dev',
+'ovsdb/ovsdb-southbound-developer', #newly added guides
+'ovsdb/ovsdb-openstack-developer','ovsdb/ovsdb-sfc-developer','ovsdb/ovsdb-hwvtep-developer',
+'bgpcep/odl-bgpcep-pcep-all-dev','packetcable/packetcable-dev','sfc/sfc','sxp/odl-sxp-dev','tcpmd5/odl-tcpmd5-all-dev',
 'topoprocessing/odl-topoprocessing-framework-dev','ttp/ttp-model-dev','ttp/ttp-cli-tools-dev','usc/odl-usc-channel-dev','vtn/vtn-dev','yangtools/yangtools',
 'yang-push/odl-yang-push-dev']
 
-print len(guides)
+guidesDirectory = 'tmp1'
+
 
 def isEquqalsSign( str ):
 	if str.strip() == '':
@@ -64,9 +67,9 @@ def initDirectory( str ):
 	else:
 		dir = str.split('/')[0]
 		try:
-			os.stat(dir)
+			os.stat(guidesDirectory+'/'+dir)
 		except:
-			os.mkdir(dir)
+			os.mkdir(guidesDirectory+'/'+dir)
 		return
 
 def printToFile( textList ):
@@ -74,10 +77,12 @@ def printToFile( textList ):
 
 	for text in textList:
 		try:
-			file = open('tmp1/'+ str(number),'w')
+			#file = open('tmp1/'+ str(number),'w')
+			file = open(guidesDirectory+'/'+ guides[number],'w')
 		except:
-			os.mkdir('tmp1')
-			file = open('tmp1/'+ str(number),'w')
+			#os.mkdir('tmp1')
+			print guides[number]
+			file = open(guidesDirectory+'/'+ guides[number],'w')
 		file.write(text)
 		file.close()
 		number += 1
@@ -110,6 +115,10 @@ while (line != ''):
 	lineAbove = line
 	line = deGuide.readline()
 
+for guide in guides:
+	initDirectory(guide)
+
+
 
 deGuide = FileWrapper(open("developer-guide/index.rst"))
 lines = deGuide.readlines()
@@ -117,30 +126,4 @@ lines = deGuide.readlines()
 textList = getGuides(lines,lineNumber)
 printToFile(textList)
 
-# while (line != ''):
-# 	output = ''
-# 	if isEquqalsSign(line.strip('\n')):
-# 		output = lineAbove+line
-# 		lineAbove = line
-# 		line = deGuide.readline()
-# 		while (!isEquqalsSign(line.strip())):
-# 			output = output + line
-# 	else:
-# 		lineAbove = line
-# 		line = deGuide.readline()
-# output = ''
-# for i in range(1,20):
-	
-# 	if isEquqalsSign(line.strip('\n')):
-# 		output = lineAbove+line
-# 		lineAbove = line
-# 		line = deGuide.readline()
-# 		while (isEquqalsSign(line.strip()) == False):
-# 			output = output + line
-# 			lineAbove = line
-# 			line = deGuide.readline()
-# 	else:
-# 		lineAbove = line
-# 		line = deGuide.readline()
-# print output
 
