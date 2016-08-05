@@ -1,0 +1,4 @@
+sphinx>=1.4.4
+sphinx_bootstrap_theme>=0.4.11
+robotframework
+

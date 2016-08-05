@@ -54,11 +54,15 @@ include::developing-app.adoc[]
 
 include::alto/alto-developer-guide.adoc[ALTO]
 
-include::armoury/odl-armoury-dev.adoc[ARMOURY]
+include::atrium/odl-atrium-all-dev.adoc[Atrium]
 
 include::bgpcep/odl-bgpcep-bgp-all-dev.adoc[BGP]
 
+include::bgpcep/odl-bgpcep-bmp-dev.adoc[BGP]
+
 include::capwap/capwap-dev.adoc[CAPWAP]
+
+include::cardinal/odl-cardinal-dev.adoc[]
 
 include::controller/controller.adoc[Controller]
 
@@ -72,8 +76,6 @@ include::l2switch/l2switch-dev.adoc[]
 
 include::lacp/lacp-dev.adoc[]
 
-include::messaging4transport/messaging4transport-developer.adoc[]
-
 include::controller/netconf/odl-netconf-dev.adoc[]
 
 include::nic/nic-dev.adoc[]
@@ -84,7 +86,13 @@ include::netide/netide-developer-guide.adoc[]
 
 include::neutron/neutron.adoc[]
 
+include::odlparent/odlparent-developer.adoc[]
+
+include::ocpplugin/ocp-developer-guide.adoc[OCP]
+
 include::sdninterfaceapp/odl-sdninterfaceapp-all-dev.adoc[]
+
+include::of-config/of-config-dev.adoc[]
 
 include::openflowjava/odl-openflowjava-protocol-dev.adoc[]
 
@@ -107,9 +115,9 @@ include::packetcable/packetcable-dev.adoc[Packet Cable PCMM Southbound Plugin]
 
 include::sfc/sfc.adoc[]
 
-include::sxp/odl-sxp-dev.adoc[]
+include::snmp4sdn/snmp4sdn-developer.adoc[SNMP4SDN]
 
-include::tcpmd5/odl-tcpmd5-all-dev.adoc[TCP-MD5]
+include::sxp/odl-sxp-dev.adoc[]
 
 include::topoprocessing/odl-topoprocessing-framework-dev.adoc[]
 

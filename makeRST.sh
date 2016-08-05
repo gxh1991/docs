@@ -1,13 +1,31 @@
 #!/bin/bash
-cwd=$(pwd)
-cd ./manuals/howto-openstack
-mvn clean compile
-cp -r $cwd/manuals/howto-openstack/target/generated-docs $cwd/docs2
-mv $cwd/docs2/generated-docs $cwd/docs2/howto-openstack
-mvn clean
-cd $cwd/docs2/howto-openstack
-pandoc -f docbook -t rst -s openstack.xml -o index.rst
-sphinx-build -b html $cwd/docs2 $cwd/docs2/html
 
+# This script compiles documenatation from asciidoc source by
+# converting  asciidoc to reStructedText automatically using
+# asciidoctor maven plug in and pandoc (http://www.pandoc.org/).
+#
+# Please make sure you have pandoc (http://www.pandoc.org/), sphinx
+# (http://www.sphinx-doc.org/) and sphinx-bootstrap-theme(https://ryan-roemer.github.io/sphinx-bootstrap-theme/) installed.
+
+cwd=$(pwd)
+cp -r $cwd/docs/getting-started-guide $cwd/docs_autotranslation/getting-started-guide
+cp -r $cwd/docs/_static $cwd/docs_autotranslation/_static
+docs='howto-openstack developer-guide user-guide'
+for i in $docs
+do
+    echo "Translating $i ..."
+    cd $cwd/manuals/$i
+    mvn clean compile
+    cp -r $cwd/manuals/$i/target/generated-docs $cwd/docs_autotranslation/$i
+    mvn clean
+    cd $cwd/docs_autotranslation/$i
+    pandoc -f docbook -t rst -s *.xml -o index.rst
+done
+
+# cd $cwd/docs_autotranslation
+# ./split.py -i developer-guide/index.rst
+# ./split.py -i user-guide/index.rst
+
+# sphinx-build -b html $cwd/docs_autotranslation $cwd/docs_autotranslation/html
 
 

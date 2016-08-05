@@ -15,12 +15,11 @@ This first part of the user guide covers the basic user operations of the OpenDa
 
 include::ch-introduction.adoc[OpenDaylight Controller Overview]
 
-//TODO: these three includes are a hugely ugly hack that needs to go
-include::../../../../getting-started-guide/src/main/asciidoc/ch-dlux.adoc[]
+include::ch-dlux.adoc[]
 
-include::../../../../getting-started-guide/src/main/asciidoc/ch-xsql-commands.adoc[]
+include::ch-xsql-commands.adoc[]
 
-include::../../../../getting-started-guide/src/main/asciidoc/ch-clustering.adoc[]
+include::ch-clustering.adoc[]
 
 = Applications and Plugins
 
@@ -32,11 +31,17 @@ include::alto/alto-user-guide.adoc[ALTO]
 
 include::aaa/aaa.adoc[AAA]
 
-include::armoury/odl-armoury-user.adoc[ARMOURY]
+include::atrium/odl-atrium-all-user.adoc[Atrium]
 
 include::bgpcep/odl-bgpcep-bgp-all-user.adoc[BGP]
 
+include::bgpcep/odl-bgpcep-bmp-user.adoc[BMP]
+
 include::capwap/capwap-user.adoc[CAPWAP]
+
+include::cardinal/odl-cardinal-user.adoc[]
+
+include::centinel/centinel-user-guide.adoc[]
 
 include::didm/didm-user.adoc[]
 
@@ -50,19 +55,25 @@ include::lacp/lacp-user.adoc[LACP]
 
 include::lfm/lispflowmapping-msmr-user.adoc[LISP flow mapping]
 
-include::messaging4transport/messaging4transport-user.adoc[Messaging4Transport]
-
 include::nemo/odl-nemo-engine-user.adoc[NEMO]
+
+include::controller/netconf/odl-netconf-user.adoc[]
 
 include::netide/odl-netide-user-guide.adoc[NetIDE]
 
 include::nic/nic-user.adoc[NIC]
 
+include::ocpplugin/ocp-user-guide.adoc[OCP]
+
 include::sdninterfaceapp/odl-sdninterfaceapp-all-user.adoc[ODL-SDNi]
+
+include::of-config/ofconfig-user.adoc[OF-CONFIG]
 
 include::openflowplugin/odl-ofp-user-guide.adoc[OpenFlow Plugin]
 
 include::opflex/agent-ovs-user.adoc[]
+
+include::ovsdb/odl-ovsdb-netvirt-user-guide.adoc[]
 
 include::bgpcep/odl-bgpcep-pcep-all-user.adoc[PCEP]
 
@@ -72,18 +83,20 @@ include::sfc/sfc.adoc[Service Function Chain]
 
 include::snmp/snmp-user-guide.adoc[SNMP]
 
-include::sxp/odl-sxp-user.adoc[]
+include::snmp4sdn/snmp4sdn-user-guide.adoc[SNMP4SDN]
 
-include::tcpmd5/odl-tcpmd5-all-user.adoc[TCP-MD5]
+include::sxp/odl-sxp-user.adoc[]
 
 include::tsdr/tsdr-user-guide.adoc[]
 
 include::ttp/ttp-cli-tools-user.adoc[TTP]
 
+include::unimgr/unimgr-user.adoc[]
+
 include::usc/odl-usc-channel-user.adoc[USC]
 
 include::vtn/vtn-user.adoc[]
 
-include::controller/netconf/odl-netconf-user.adoc[]
+include::yangide/yangide-user.adoc[]
 
 include::yang-push/odl-yang-push-user.adoc[YANG-PUSH]
